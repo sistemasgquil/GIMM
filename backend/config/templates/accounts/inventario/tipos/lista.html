@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+    <title>Tipos de Artículo - GIMM</title>
+
+    <style>
+
+        .fecha-hora {
+        margin-bottom: 20px;
+        color: #555;
+        font-size: 14px;
+    }
+
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #333;
+        color: white;
+    }
+
+    .sin-datos {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .contenedor-productos {
+        max-width: 1200px;
+        margin: auto;
+        padding: 25px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .encabezado-productos {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .encabezado-productos h2 {
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    .encabezado-productos p {
+        color: #666;
+        margin-bottom: 0;
+    }
+
+    .boton-nuevo {
+        background-color: #198754;
+        color: white;
+        padding: 10px 16px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        transition: background-color 0.2s ease;
+    }
+
+    .boton-nuevo:hover {
+        background-color: #157347;
+        color: white;
+    }
+
+    .tabla-productos {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    .tabla-productos th {
+        background-color: #333;
+        color: white;
+        padding: 12px;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .tabla-productos td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        vertical-align: middle;
+    }
+
+    .tabla-productos tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .estado-producto {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .estado-activo {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .estado-inactivo {
+        background-color: #e2e3e5;
+        color: #41464b;
+    }
+
+    .stock-bajo {
+        color: #b02a37;
+        font-weight: bold;
+    }
+
+    .stock-normal {
+        color: #146c43;
+        font-weight: bold;
+    }
+
+    .boton-accion {
+        display: inline-block;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 13px;
+        margin: 2px;
+        white-space: nowrap;
+    }
+
+    .boton-editar {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .boton-editar:hover {
+        background-color: #e0a800;
+    }
+
+    .boton-desactivar {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .boton-desactivar:hover {
+        background-color: #bb2d3b;
+    }
+
+    .boton-activar {
+        background-color: #198754;
+        color: white;
+    }
+
+    .boton-activar:hover {
+        background-color: #157347;
+    }
+
+    .mensaje-vacio {
+        padding: 20px;
+        text-align: center;
+        background-color: #e7f1ff;
+        border-radius: 5px;
+        color: #084298;
+    }
+
+    .tabla-responsive {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    @media (max-width: 768px) {
+        .contenedor-productos {
+            padding: 15px;
+        }
+
+        .encabezado-productos {
+            align-items: flex-start;
+        }
+    }
+</style>
+
+<!-- FECHA Y HORA -->
+
+<div
+    id="fecha-hora"
+    class="fecha-hora"
+>
+</div>
+
+
+<script>
+
+    function actualizarFechaHora() {
+
+        const ahora = new Date();
+
+        const opcionesFecha = {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        };
+
+        const fecha = ahora.toLocaleDateString(
+            'es-EC',
+            opcionesFecha
+        );
+
+        const hora = ahora.toLocaleTimeString(
+            'es-EC'
+        );
+
+        document.getElementById('fecha-hora').textContent =
+            `Fecha: ${fecha} | Hora: ${hora}`;
+    }
+
+    actualizarFechaHora();
+
+    setInterval(
+        actualizarFechaHora,
+        1000
+    );
+
+</script>
+
+</head>
+
+<body>
+
+    <h1>GIMM</h1>
+
+    <h2>Tipos de Artículo</h2>
+
+    <p>
+        Administración de tipos de artículos del inventario.
+    </p>
+
+    <hr>
+
+    <a href="{% url 'nuevo_tipo_articulo' %}" class="boton-nuevo">
+        + Nuevo tipo de artículo
+    </a>
+
+    <br><br>
+<div class="busqueda">
+    <table border="1" cellpadding="8" cellspacing="0">
+
+        <thead>
+
+            <tr>
+
+                <th>Nombre</th>
+
+                <th>Descripción</th>
+
+                <th>Estado</th>
+
+                <th>Acciones</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for tipo in tipos %}
+
+            <tr>
+
+                <td>
+                    {{ tipo.nombre }}
+                </td>
+
+                <td>
+                    {{ tipo.descripcion|default:"-" }}
+                </td>
+
+                <td>
+
+                    {% if tipo.activo %}
+
+                        Activo
+
+                    {% else %}
+
+                        Inactivo
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    <a href="{% url 'editar_tipo_articulo' tipo.id %}" class="boton-editar">
+                       ✏️ Editar
+                    </a>
+
+                    <form
+                        method="POST"
+                        action="{% url 'cambiar_estado_tipo_articulo' tipo.id %}"
+                        style="display:inline;"
+                    >
+
+                        {% csrf_token %}
+
+                        {% if tipo.activo %}
+
+                            <button type="submit"class="boton-desactivar">
+                                Desactivar
+                            </button>
+
+                        {% else %}
+
+                            <button type="submit">
+                                Activar
+                                style="display: inline;"
+                            </button>
+
+                        {% endif %}
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="4">
+
+                    No existen tipos de artículos registrados.
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+</div>
+
+    <br>
+
+    <a href="{% url 'lista_socios' %}"class="boton-nuevo">
+        Volver a Socios
+    </a>
+
+</body>
+
+</html>

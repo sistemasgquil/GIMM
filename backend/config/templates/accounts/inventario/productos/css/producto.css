@@ -1,0 +1,223 @@
+
+    <style>
+
+        .fecha-hora {
+        margin-bottom: 20px;
+        color: #555;
+        font-size: 14px;
+    }
+
+        .fecha-hora {
+        margin-bottom: 20px;
+        color: #555;
+        font-size: 14px;
+    }
+
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #333;
+        color: white;
+    }
+
+    .sin-datos {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .contenedor-productos {
+        max-width: 1200px;
+        margin: auto;
+        padding: 25px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .encabezado-productos {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .encabezado-productos h2 {
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    .encabezado-productos p {
+        color: #666;
+        margin-bottom: 0;
+    }
+
+    .boton-nuevo {
+        background-color: #198754;
+        color: white;
+        padding: 10px 16px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        transition: background-color 0.2s ease;
+    }
+
+    .boton-nuevo:hover {
+        background-color: #157347;
+        color: white;
+    }
+
+    .tabla-productos {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    .tabla-productos th {
+        background-color: #333;
+        color: white;
+        padding: 12px;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .tabla-productos td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        vertical-align: middle;
+    }
+
+    .tabla-productos tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .estado-producto {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .estado-activo {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .estado-inactivo {
+        background-color: #e2e3e5;
+        color: #41464b;
+    }
+
+    .stock-bajo {
+        color: #b02a37;
+        font-weight: bold;
+    }
+
+    .stock-normal {
+        color: #146c43;
+        font-weight: bold;
+    }
+
+    .boton-accion {
+        display: inline-block;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 13px;
+        margin: 2px;
+        white-space: nowrap;
+    }
+
+    .boton-editar {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .boton-editar:hover {
+        background-color: #e0a800;
+    }
+
+    .boton-desactivar {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .boton-desactivar:hover {
+        background-color: #bb2d3b;
+    }
+
+    .boton-activar {
+        background-color: #198754;
+        color: white;
+    }
+
+    .boton-activar:hover {
+        background-color: #157347;
+    }
+
+    .mensaje-vacio {
+        padding: 20px;
+        text-align: center;
+        background-color: #e7f1ff;
+        border-radius: 5px;
+        color: #084298;
+    }
+
+    .tabla-responsive {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    @media (max-width: 768px) {
+        .contenedor-productos {
+            padding: 15px;
+        }
+
+        .encabezado-productos {
+            align-items: flex-start;
+        }
+    }
+</style>
+
+
+<script>
+
+    function actualizarFechaHora() {
+
+        const ahora = new Date();
+
+        const opcionesFecha = {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        };
+
+        const fecha = ahora.toLocaleDateString(
+            'es-EC',
+            opcionesFecha
+        );
+
+        const hora = ahora.toLocaleTimeString(
+            'es-EC'
+        );
+
+        document.getElementById('fecha-hora').textContent =
+            `Fecha: ${fecha} | Hora: ${hora}`;
+    }

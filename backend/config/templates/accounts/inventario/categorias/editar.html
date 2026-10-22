@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Editar categoría - GIMM
+{% endblock %}
+
+
+{% block content %}
+
+<h2>Editar categoría</h2>
+
+<p>
+    Modifique la información de la categoría.
+</p>
+
+
+{% if error %}
+
+<div
+    style="
+        background-color: #f8d7da;
+        color: #842029;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    "
+>
+    {{ error }}
+</div>
+
+{% endif %}
+
+
+<form method="POST">
+
+    {% csrf_token %}
+
+
+    <div style="margin-bottom: 15px;">
+
+        <label>
+            <strong>Tipo de artículo</strong>
+        </label>
+
+        <br>
+
+        <select
+            name="tipo"
+            required
+            style="
+                width: 100%;
+                max-width: 500px;
+                padding: 10px;
+                margin-top: 5px;
+            "
+        >
+
+            {% for tipo in tipos %}
+
+            <option
+                value="{{ tipo.id }}"
+                {% if tipo.id == categoria.tipo.id %}
+                    selected
+                {% endif %}
+            >
+
+                {{ tipo.nombre }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+
+    <div style="margin-bottom: 15px;">
+
+        <label>
+            <strong>Nombre de la categoría</strong>
+        </label>
+
+        <br>
+
+        <input
+            type="text"
+            name="nombre"
+            maxlength="100"
+            value="{{ categoria.nombre }}"
+            required
+            style="
+                width: 100%;
+                max-width: 500px;
+                padding: 10px;
+                margin-top: 5px;
+            "
+        >
+
+    </div>
+
+
+    <div style="margin-bottom: 20px;">
+
+        <label>
+            <strong>Descripción</strong>
+        </label>
+
+        <br>
+
+        <textarea
+            name="descripcion"
+            rows="4"
+            style="
+                width: 100%;
+                max-width: 500px;
+                padding: 10px;
+                margin-top: 5px;
+            "
+        >{{ categoria.descripcion }}</textarea>
+
+    </div>
+
+
+    <button
+        type="submit"
+        style="
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        "
+    >
+        Guardar cambios
+    </button>
+
+
+    <a
+        href="{% url 'lista_categorias_articulo' %}"
+        style="
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-left: 8px;
+        "
+    >
+        Cancelar
+    </a>
+
+</form>
+
+{% endblock %}

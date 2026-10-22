@@ -1,0 +1,347 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar producto - GIMM{% endblock %}
+
+{% block content %}
+
+<div class="contenedor-inventario">
+
+    <div class="encabezado-pagina">
+        <h1>Editar producto</h1>
+
+        <a href="{% url 'lista_productos' %}"
+           class="boton boton-secundario">
+            Volver
+        </a>
+    </div>
+
+    {% if error %}
+        <div class="mensaje-error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="POST"
+          action="{% url 'editar_producto' producto.id %}">
+
+        {% csrf_token %}
+
+        <div class="formulario-grid">
+
+            <div class="campo">
+                <label for="codigo">Código del producto</label>
+                <input type="text"
+                       id="codigo"
+                       name="codigo"
+                       value="{{ producto.codigo }}"
+                       maxlength="50"
+                       required>
+            </div>
+
+            <div class="campo">
+                <label for="nombre">Nombre del producto</label>
+                <input type="text"
+                       id="nombre"
+                       name="nombre"
+                       value="{{ producto.nombre }}"
+                       maxlength="150"
+                       required>
+            </div>
+
+            <div class="campo">
+                <label for="tipo">Tipo de artículo</label>
+
+                <select id="tipo" name="tipo" required>
+                    <option value="">Seleccione un tipo</option>
+
+                    {% for tipo in tipos %}
+                        <option value="{{ tipo.id }}"
+                            {% if producto.tipo_id == tipo.id %}
+                                selected
+                            {% endif %}>
+                            {{ tipo.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="categoria">Categoría</label>
+
+                <select id="categoria" name="categoria" required>
+                    <option value="">Seleccione una categoría</option>
+
+                    {% for categoria in categorias %}
+                        <option value="{{ categoria.id }}"
+                                data-tipo="{{ categoria.tipo_id }}"
+                            {% if producto.categoria_id == categoria.id %}
+                                selected
+                            {% endif %}>
+                            {{ categoria.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="proveedor">Proveedor</label>
+                <input type="text"
+                       id="proveedor"
+                       name="proveedor"
+                       value="{{ producto.proveedor }}"
+                       maxlength="150">
+            </div>
+
+            <div class="campo">
+                <label for="unidad_medida">Unidad de medida</label>
+
+                <select id="unidad_medida"
+                        name="unidad_medida"
+                        required>
+
+                    {% for valor, etiqueta in unidades %}
+                        <option value="{{ valor }}"
+                            {% if producto.unidad_medida == valor %}
+                                selected
+                            {% endif %}>
+                            {{ etiqueta }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="precio_compra">Precio de compra ($)</label>
+                <input type="number"
+                       id="precio_compra"
+                       name="precio_compra"
+                       value="{{ producto.precio_compra }}"
+                       min="0"
+                       step="0.01"
+                       required>
+            </div>
+
+            <div class="campo">
+                <label for="precio_venta">Precio de venta ($)</label>
+                <input type="number"
+                       id="precio_venta"
+                       name="precio_venta"
+                       value="{{ producto.precio_venta }}"
+                       min="0"
+                       step="0.01"
+                       required>
+            </div>
+
+            <div class="campo">
+                <label for="stock">Stock actual</label>
+                <input type="number"
+                       id="stock"
+                       name="stock"
+                       value="{{ producto.stock }}"
+                       min="0"
+                       step="0.01"
+                       required>
+            </div>
+
+            <div class="campo">
+                <label for="stock_minimo">Stock mínimo</label>
+                <input type="number"
+                       id="stock_minimo"
+                       name="stock_minimo"
+                       value="{{ producto.stock_minimo }}"
+                       min="0"
+                       step="0.01"
+                       required>
+            </div>
+
+            <div class="campo campo-completo">
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion"
+                          name="descripcion"
+                          rows="4">{{ producto.descripcion }}</textarea>
+            </div>
+
+        </div>
+
+        <div class="acciones-formulario">
+            <button type="submit" class="boton boton-principal">
+                Guardar cambios
+            </button>
+
+            <a href="{% url 'lista_productos' %}"
+               class="boton boton-secundario">
+                Cancelar
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+<style>
+    /* Estilos del contenido: se conserva intacto base.html */
+
+    .contenedor-inventario {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 25px;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .encabezado-pagina {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+    }
+
+    .encabezado-pagina h1 {
+        margin: 0;
+        color: #333333;
+        font-size: 26px;
+    }
+
+    .formulario-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .campo {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .campo-completo {
+        grid-column: 1 / -1;
+    }
+
+    .campo label {
+        font-weight: bold;
+        color: #333333;
+    }
+
+    .campo input,
+    .campo select,
+    .campo textarea {
+        width: 100%;
+        padding: 11px;
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        background-color: #ffffff;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+    }
+
+    .campo input:focus,
+    .campo select:focus,
+    .campo textarea:focus {
+        outline: none;
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+    }
+
+    .acciones-formulario {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #dddddd;
+    }
+
+    .boton {
+        display: inline-block;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 5px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .boton-principal {
+        background-color: #0d6efd;
+        color: #ffffff;
+    }
+
+    .boton-principal:hover {
+        background-color: #0b5ed7;
+    }
+
+    .boton-secundario {
+        background-color: #6c757d;
+        color: #ffffff;
+    }
+
+    .boton-secundario:hover {
+        background-color: #5c636a;
+    }
+
+    .mensaje-error {
+        margin-bottom: 20px;
+        padding: 12px 15px;
+        color: #842029;
+        background-color: #f8d7da;
+        border: 1px solid #f5c2c7;
+        border-radius: 5px;
+    }
+
+    @media (max-width: 700px) {
+        .contenedor-inventario {
+            padding: 18px;
+        }
+
+        .formulario-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .campo-completo {
+            grid-column: auto;
+        }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const selectorTipo = document.getElementById('tipo');
+    const selectorCategoria = document.getElementById('categoria');
+
+    function filtrarCategorias() {
+        const tipoSeleccionado = selectorTipo.value;
+        const categoriaActual = selectorCategoria.value;
+        let categoriaValida = false;
+
+        Array.from(selectorCategoria.options).forEach(function (opcion) {
+            if (opcion.value === '') {
+                opcion.hidden = false;
+                return;
+            }
+
+            const corresponde = opcion.dataset.tipo === tipoSeleccionado;
+            opcion.hidden = !corresponde;
+
+            if (corresponde && opcion.value === categoriaActual) {
+                categoriaValida = true;
+            }
+        });
+
+        if (!categoriaValida) {
+            selectorCategoria.value = '';
+        }
+    }
+
+    selectorTipo.addEventListener('change', filtrarCategorias);
+    filtrarCategorias();
+});
+</script>
+
+{% endblock %}

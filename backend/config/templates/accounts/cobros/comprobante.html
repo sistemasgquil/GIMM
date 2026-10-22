@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+```
+<title>Comprobante de pago - GIMM</title>
+
+<style>
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f2f2f2;
+        margin: 0;
+        padding: 30px;
+    }
+
+    .comprobante {
+        width: 700px;
+        max-width: 100%;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+    }
+
+    .encabezado {
+        text-align: center;
+        border-bottom: 2px solid #333;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+
+    .encabezado h1 {
+        margin: 0;
+    }
+
+    .encabezado p {
+        margin: 5px 0;
+    }
+
+    .datos {
+        margin-top: 20px;
+    }
+
+    .fila {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+    }
+
+    .etiqueta {
+        width: 200px;
+        font-weight: bold;
+    }
+
+    .valor {
+        flex: 1;
+    }
+
+    .total {
+        text-align: right;
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 25px;
+    }
+
+    .pie {
+        text-align: center;
+        margin-top: 40px;
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+    }
+
+    .botones {
+        text-align: center;
+        margin-top: 25px;
+    }
+
+    button,
+    .boton {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+        border: 1px solid #999;
+        background: #f5f5f5;
+        color: #000;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    button:hover,
+    .boton:hover {
+        background: #e5e5e5;
+    }
+
+    @media print {
+
+        body {
+            background: white;
+            padding: 0;
+        }
+
+        .comprobante {
+            width: 100%;
+            border: none;
+        }
+
+        .botones {
+            display: none;
+        }
+
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="comprobante">
+
+```
+<div class="encabezado">
+
+    <h1>GIMM</h1>
+
+    <p>COMPROBANTE DE PAGO</p>
+
+</div>
+
+
+<div class="datos">
+
+    <div class="fila">
+
+        <div class="etiqueta">
+            Socio:
+        </div>
+
+        <div class="valor">
+            {{ cobro.socio.nombres }}
+            {{ cobro.socio.apellidos }}
+        </div>
+
+    </div>
+
+
+    <div class="fila">
+
+        <div class="etiqueta">
+            Concepto:
+        </div>
+
+        <div class="valor">
+            {{ cobro.concepto }}
+        </div>
+
+    </div>
+
+
+    <div class="fila">
+
+        <div class="etiqueta">
+            Fecha de cobro:
+        </div>
+
+        <div class="valor">
+            {{ cobro.fecha_cobro|date:"d/m/Y" }}
+        </div>
+
+    </div>
+
+
+    <div class="fila">
+
+        <div class="etiqueta">
+            Vencimiento:
+        </div>
+
+        <div class="valor">
+
+            {% if cobro.fecha_vencimiento %}
+                {{ cobro.fecha_vencimiento|date:"d/m/Y" }}
+            {% else %}
+                No especificado
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <div class="fila">
+
+        <div class="etiqueta">
+            Método de pago:
+        </div>
+
+        <div class="valor">
+            {{ cobro.get_metodo_pago_display }}
+        </div>
+
+    </div>
+
+
+    <div class="fila">
+
+        <div class="etiqueta">
+            Estado:
+        </div>
+
+        <div class="valor">
+            {{ cobro.get_estado_display }}
+        </div>
+
+    </div>
+
+
+    {% if cobro.observacion %}
+
+    <div class="fila">
+
+        <div class="etiqueta">
+            Observación:
+        </div>
+
+        <div class="valor">
+            {{ cobro.observacion }}
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<div class="total">
+
+    Total: ${{ cobro.valor }}
+
+</div>
+
+
+<div class="pie">
+
+    <p>Gracias por su pago.</p>
+
+    <p>GIMM - Sistema de Gestión de Gimnasio</p>
+
+</div>
+
+{% if email_enviado %}
+
+<div style="
+    background: #d1e7dd;
+    color: #0f5132;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #badbcc;
+">
+
+    ✅ Comprobante enviado correctamente a:
+    <strong>{{ email_enviado }}</strong>
+
+</div>
+
+{% endif %}
+
+{% if email_error %}
+
+<div style="
+    background: #f8d7da;
+    color: #842029;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #f5c2c7;
+">
+
+    ❌ {{ email_error }}
+
+</div>
+
+{% endif %}
+
+<div class="botones">
+
+    <!-- IMPRIMIR -->
+<div class="botones">
+
+    <!-- IMPRIMIR -->
+    <button onclick="window.print()">
+        🖨️ Imprimir comprobante
+    </button>
+
+    <!-- PDF -->
+    <a
+        class="boton"
+        href="{% url 'pdf_cobro' cobro.id %}"
+    >
+        📄 Generar PDF
+    </a>
+
+    <!-- EMAIL -->
+    <form
+    method="POST"
+    action="{% url 'enviar_email_cobro' cobro.id %}"
+    style="display: inline;"
+>
+
+    {% csrf_token %}
+
+    <button type="submit">
+        ✉️ Enviar por Email
+    </button>
+
+</form>
+
+
+    <!-- WHATSAPP -->
+    <a
+        class="boton"
+        href="https://wa.me/{{ cobro.socio.telefono }}?text=Hola%20{{ cobro.socio.nombres }}%20{{ cobro.socio.apellidos }},%20gracias%20por%20su%20pago.%20GIMM%20le%20env%C3%ADa%20su%20comprobante%20de%20pago."
+        target="_blank"
+    >
+        📱 WhatsApp
+    </a>
+
+    <!-- VOLVER -->
+    <button onclick="window.history.back()">
+        ← Volver
+    </button>
+
+</div>
+
+</div>
+```
+
+</div>
+
+<script>
+
+  
+/*
+    function enviarEmail() {
+        alert(
+            "El envío por Email lo configuraremos en el siguiente paso."
+        );
+    }
+*/
+
+
+</script>
+
+</body>
+</html>

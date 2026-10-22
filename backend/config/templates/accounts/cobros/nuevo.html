@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Nuevo Cobro - GIMM{% endblock %}
+
+{% block content %}
+
+<h1>Registrar Nuevo Cobro</h1>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <p>
+        <label>Socio:</label><br>
+
+        <select name="socio" required>
+
+            <option value="">-- Seleccione un socio --</option>
+
+            {% for socio in socios %}
+
+                <option value="{{ socio.id }}">
+                    {{ socio.nombres }} {{ socio.apellidos }} - {{ socio.cedula }}
+                </option>
+
+            {% endfor %}
+
+        </select>
+    </p>
+
+    <p>
+        <label>Concepto:</label><br>
+
+        <input
+            type="text"
+            name="concepto"
+            placeholder="Ejemplo: Mensualidad septiembre"
+            required
+        >
+    </p>
+
+    <p>
+        <label>Fecha de vencimiento:</label><br>
+
+        <input
+            type="date"
+            name="fecha_vencimiento"
+        >
+    </p>
+
+    <p>
+        <label>Valor:</label><br>
+
+        <input
+            type="number"
+            name="valor"
+            step="0.01"
+            min="0"
+            required
+        >
+    </p>
+
+    <p>
+        <label>Método de pago:</label><br>
+
+        <select name="metodo_pago" required>
+
+            <option value="EFECTIVO">Efectivo</option>
+            <option value="TRANSFERENCIA">Transferencia</option>
+            <option value="TARJETA">Tarjeta</option>
+            <option value="OTRO">Otro</option>
+
+        </select>
+    </p>
+
+    <p>
+        <label>Estado:</label><br>
+
+        <select name="estado" required>
+
+            <option value="PAGADO">Pagado</option>
+            <option value="PENDIENTE">Pendiente</option>
+            <option value="ANULADO">Anulado</option>
+
+        </select>
+    </p>
+
+    <p>
+        <label>Observación:</label><br>
+
+        <textarea
+            name="observacion"
+            rows="4"
+            cols="40"
+        ></textarea>
+    </p>
+
+    <button type="submit">
+        Registrar cobro
+    </button>
+
+    <a href="{% url 'lista_cobros' %}">
+        Cancelar
+    </a>
+
+</form>
+
+{% endblock %}

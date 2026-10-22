@@ -1,0 +1,403 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .contenedor {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .botones {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button,
+        .cancelar {
+            padding: 10px 18px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #198754;
+            color: white;
+        }
+
+        .cancelar {
+            background-color: #6c757d;
+            color: white;
+        }
+    </style>
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>➕ Nuevo producto</h2>
+
+            <p class="text-muted">
+                Registrar un nuevo producto en el inventario.
+            </p>
+        </div>
+
+        <a
+            href="{% url 'lista_productos' %}"
+            class="btn btn-secondary"
+        >
+            ← Volver
+        </a>
+
+    </div>
+
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <!-- Código -->
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Código
+                        </label>
+
+                        <input
+                            type="text"
+                            name="codigo"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Nombre -->
+
+                    <div class="col-md-8 mb-3">
+
+                        <label class="form-label">
+                            Nombre del producto
+                        </label>
+
+                        <input
+                            type="text"
+                            name="nombre"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Tipo -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Tipo de artículo
+                        </label>
+
+                        <select
+                            name="tipo"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Seleccione un tipo
+                            </option>
+
+                            {% for tipo in tipos %}
+
+                                <option value="{{ tipo.id }}">
+                                    {{ tipo.nombre }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Categoría -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Categoría
+                        </label>
+
+                        <select
+                            name="categoria"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Seleccione una categoría
+                            </option>
+
+                            {% for categoria in categorias %}
+
+                                <option value="{{ categoria.id }}">
+                                    {{ categoria.nombre }}
+                                    -
+                                    {{ categoria.tipo.nombre }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Proveedor -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Proveedor
+                        </label>
+
+                        <input
+                            type="text"
+                            name="proveedor"
+                            class="form-control"
+                        >
+
+                    </div>
+
+
+                    <!-- Unidad -->
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Unidad de medida
+                        </label>
+
+                        <select
+                            name="unidad_medida"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="UNIDAD">
+                                Unidad
+                            </option>
+
+                            <option value="CAJA">
+                                Caja
+                            </option>
+
+                            <option value="PAQUETE">
+                                Paquete
+                            </option>
+
+                            <option value="PAR">
+                                Par
+                            </option>
+
+                            <option value="DOCENA">
+                                Docena
+                            </option>
+
+                            <option value="KILOGRAMO">
+                                Kilogramo
+                            </option>
+
+                            <option value="GRAMO">
+                                Gramo
+                            </option>
+
+                            <option value="LITRO">
+                                Litro
+                            </option>
+
+                            <option value="MILILITRO">
+                                Mililitro
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Precio compra -->
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Precio de compra
+                        </label>
+
+                        <input
+                            type="number"
+                            name="precio_compra"
+                            class="form-control"
+                            step="0.01"
+                            min="0"
+                            value="0"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Precio venta -->
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Precio de venta
+                        </label>
+
+                        <input
+                            type="number"
+                            name="precio_venta"
+                            class="form-control"
+                            step="0.01"
+                            min="0"
+                            value="0"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Stock -->
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Stock inicial
+                        </label>
+
+                        <input
+                            type="number"
+                            name="stock"
+                            class="form-control"
+                            step="0.01"
+                            min="0"
+                            value="0"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Stock mínimo -->
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Stock mínimo
+                        </label>
+
+                        <input
+                            type="number"
+                            name="stock_minimo"
+                            class="form-control"
+                            step="0.01"
+                            min="0"
+                            value="0"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Descripción -->
+
+                    <div class="col-12 mb-3">
+
+                        <label class="form-label">
+                            Descripción
+                        </label>
+
+                        <textarea
+                            name="descripcion"
+                            class="form-control"
+                            rows="3"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="text-end">
+
+                    <a
+                        href="{% url 'lista_productos' %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancelar
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Guardar producto
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

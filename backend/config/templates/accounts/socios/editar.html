@@ -1,0 +1,98 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Editar Socio - GIMM
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Editar Socio</h1>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <p>
+        <label>Nombres:</label><br>
+
+        <input
+            type="text"
+            name="nombres"
+            value="{{ socio.nombres }}"
+            required
+        >
+    </p>
+
+
+    <p>
+        <label>Apellidos:</label><br>
+
+        <input
+            type="text"
+            name="apellidos"
+            value="{{ socio.apellidos }}"
+            required
+        >
+    </p>
+
+
+    <p>
+        <label>Cédula:</label><br>
+
+        <input
+            type="text"
+            name="cedula"
+            value="{{ socio.cedula }}"
+            required
+        >
+    </p>
+
+
+    <p>
+        <label>Teléfono:</label><br>
+
+        <input
+            type="text"
+            name="telefono"
+            value="{{ socio.telefono }}"
+        >
+    </p>
+
+
+    <p>
+        <label>Email:</label><br>
+
+        <input
+            type="email"
+            name="email"
+            value="{{ socio.email }}"
+        >
+    </p>
+
+
+    <p>
+        <label>Fecha de nacimiento:</label><br>
+
+        <input
+            type="date"
+            name="fecha_nacimiento"
+            value="{{ socio.fecha_nacimiento|date:'Y-m-d' }}"
+        >
+    </p>
+
+
+    <button type="submit">
+        Guardar cambios
+    </button>
+
+
+    <a href="{% url 'lista_socios' %}">
+        Cancelar
+    </a>
+
+</form>
+
+{% endblock %}
+

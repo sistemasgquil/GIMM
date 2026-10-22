@@ -1,0 +1,37 @@
+🆓 Inteligencias Artificiales con Opciones Gratuitas
+• ChatGPT (OpenAI)
+	• Qué hace: Es el asistente conversacional más popular. Redacta textos, programa código, resuelve dudas complejas y analiza datos.
+	• Link: chatgpt.com
+• Google Gemini
+	• Qué hace: IA conversacional de Google que destaca por estar conectada a internet en tiempo real. Se integra perfectamente con el ecosistema de Google (Docs, Maps, YouTube).
+	• Link: google.com
+• Claude (Anthropic)
+	• Qué hace: Destaca por su redacción con tono sumamente natural y humano. Es excelente para resumir textos larguísimos y analizar documentos complejos.
+	• Link: claude.ai
+• Microsoft Copilot
+	• Qué hace: Compañero de IA integrado en Windows y Office. Te permite generar imágenes con DALL-E 3 de forma gratuita y buscar información web precisa.
+	• Link: microsoft.com
+• Perplexity AI
+	• Qué hace: Funciona como un buscador interactivo. Responde a tus preguntas citando textualmente las fuentes web de donde saca la información.
+	• Link: perplexity.ai
+• Canva (Herramientas de IA)
+	• Qué hace: Suite de diseño gráfico que incluye funciones gratuitas de IA para crear imágenes, expandir fotos, borrar objetos y redactar textos mágicos.
+	• Link: canva.com
+💳 Inteligencias Artificiales de Pago (o con versiones Premium esenciales)
+• Midjourney
+	• Qué hace: La IA reina en la generación de imágenes artísticas e hiperrealistas. Aunque antes requería Discord, ahora cuenta con su propia plataforma web dedicada.
+	• Link: midjourney.com
+• Sora (OpenAI) / Runway Gen-3
+	• Qué hace: Generadores de video profesional a partir de texto. Permiten crear clips cinematográficos con físicas y movimientos de cámara ultrarrealistas.
+	• Link: runwayml.com / openai.com
+• ElevenLabs
+	• Qué hace: La herramienta líder en clonación de voz y generación de locuciones por inteligencia artificial. Convierte texto a audio con un realismo y emoción idénticos a los humanos.
+	• Link: elevenlabs.io
+• v0 (por Vercel)
+	• Qué hace: Una IA generativa especializada en desarrollo web. Le describes qué interfaz o página web quieres en texto, y te genera el código de programación frontend listo para usar.
+	• Link: v0.dev
+	
+	APRENDER CLOUD DE IA DESDE CERO NOW
+	
+	
+	

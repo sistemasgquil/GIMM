@@ -1,0 +1,52 @@
+docker y directori virtual
+
+Ruta:: cd ~/proyectos/gimm/backend
+1.-
+sudo systemctl status docker
+sudo systemctl daemon-reload
+sudo systemctl start docker
+
+(.venv) axelm@axel-satellitel45b:~/proyectos/gimm/backend$ docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED       STATUS              PORTS                                         NAMES
+bc40e8b4098f   postgres:17   "docker-entrypoint.s…"   5 weeks ago   Up About a minute   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp   gimm_postgres
+
+1.1. entrar a:
+cd ~/proyectos/gimm/backend
+
+axelm@axel-satellitel45b:~/proyectos/gimm$ cd backend
+axelm@axel-satellitel45b:~/proyectos/gimm/backend$ ls
+accounts  config  db.sqlite3  manage.py  notas  templates
+2.-
+axelm@axel-satellitel45b:~/proyectos/gimm/backend$ source ../.venv/bin/activate
+(.venv) axelm@axel-satellitel45b:~/proyectos/gimm/backend$ 
+
+-- sacar o salir de l directorio virtual: 
+deactivate
+- luego puedo activarlo si deseo:
+source ../.venv/bin/activate
+-- reviso que no halla errores dentro el proyecto:     /home/axelm/proyectos/gimm/backend/
+python manage.py check
+
+axelm@axel-satellitel45b:~/proyectos/gimm/backend$ find templates -name "lista.html"
+templates/accounts/socios/lista.html
+
+3-- activo el directorio virtual  MUY IMPORTANTE * primero debo estar en mi ruta del virtual y luega poner el runaserver
+source ../.venv/bin/activate
+python manage.py runserver
+
+RUTA WEB: http://127.0.0.1:8000/login/
+
+ls -l config/templates/accounts/socios/
+mkdir -p accounts/templates/accounts/socios
+-- Creaciòn de modelos nuevos en capa models:
+python manage.py makemigrations accounts
+python manage.py migrate
+
+/home/axelm/proyectos/gimm/backend/accounts/templates/base.html
+
+instalo lo del pdf:
+en el bash del entorno virtual, le pongo: pip install weasyprint
+
+
+
+

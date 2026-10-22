@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}GIMM{% endblock %}</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+
+        /* ==================================================
+           BARRA SUPERIOR
+           ================================================== */
+
+        header {
+            background: linear-gradient(
+                135deg,
+                #111111,
+                #242424,
+                #111111
+            );
+
+            color: white;
+
+            min-height: 70px;
+
+            padding: 0 30px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+
+            position: relative;
+
+            z-index: 1000;
+        }
+
+
+        /* ==================================================
+           LOGO GIMM
+           ================================================== */
+
+        .logo-gimm {
+
+            color: #ffffff;
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            letter-spacing: 3px;
+
+            text-decoration: none;
+
+            text-shadow:
+                0 0 5px rgba(255, 255, 255, 0.8),
+                0 0 12px rgba(255, 255, 255, 0.35);
+
+            transition: all 0.3s ease;
+        }
+
+
+        .logo-gimm:hover {
+
+            transform: scale(1.05);
+
+            text-shadow:
+                0 0 8px rgba(255, 255, 255, 0.9),
+                0 0 18px rgba(255, 255, 255, 0.55);
+        }
+
+
+        /* ==================================================
+           CONTENEDOR DEL MENU
+           ================================================== */
+
+        .menu-superior {
+
+            display: flex;
+
+            align-items: center;
+
+            margin-left: auto;
+
+            height: 70px;
+        }
+
+
+        /* ==================================================
+           ENLACES PRINCIPALES
+           ================================================== */
+
+        .menu-superior a {
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            padding: 10px 12px;
+
+            margin-left: 5px;
+
+            border-radius: 6px;
+
+            transition:
+                background-color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .menu-superior a:hover {
+
+            background-color: rgba(255, 255, 255, 0.12);
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ==================================================
+           MENU INVENTARIO
+           ================================================== */
+
+        .menu-desplegable {
+
+            position: relative;
+
+            margin-left: 5px;
+        }
+
+
+        .boton-menu {
+
+            color: white;
+
+            background: transparent;
+
+            border: none;
+
+            font-size: 15px;
+
+            font-family: Arial, sans-serif;
+
+            padding: 10px 12px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            transition: all 0.25s ease;
+        }
+
+
+        .boton-menu:hover {
+
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+
+
+        .flecha {
+
+            display: inline-block;
+
+            margin-left: 5px;
+
+            transition: transform 0.25s ease;
+        }
+
+
+        .menu-desplegable.abierto .flecha {
+
+            transform: rotate(180deg);
+        }
+
+
+        /* ==================================================
+           SUBMENU
+           ================================================== */
+
+        .submenu {
+
+            display: none;
+
+            position: absolute;
+
+            top: 48px;
+
+            left: 0;
+
+            min-width: 230px;
+
+            background-color: #222222;
+
+            border-radius: 8px;
+
+            padding: 8px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.45);
+
+            border: 1px solid rgba(255, 255, 255, 0.10);
+        }
+
+
+        .menu-desplegable.abierto .submenu {
+
+            display: block;
+
+            animation: aparecerMenu 0.20s ease;
+        }
+
+
+        .submenu a {
+
+            display: block;
+
+            color: #ffffff;
+
+            padding: 11px 14px;
+
+            margin: 0;
+
+            border-radius: 6px;
+
+            white-space: nowrap;
+        }
+
+
+        .submenu a:hover {
+
+            background-color: #333333;
+
+            transform: translateX(4px);
+        }
+
+
+        @keyframes aparecerMenu {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateY(-8px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateY(0);
+            }
+        }
+
+
+        /* ==================================================
+           USUARIO
+           ================================================== */
+
+        .usuario {
+
+            color: #dddddd;
+
+            margin-left: 18px;
+
+            padding-left: 18px;
+
+            border-left: 1px solid rgba(255, 255, 255, 0.20);
+
+            white-space: nowrap;
+        }
+
+
+        /* ==================================================
+           BOTON CERRAR SESION
+           ================================================== */
+
+        .boton-logout {
+
+            background-color: #0d6efd;
+
+            color: white !important;
+
+            padding: 9px 18px !important;
+
+            border-radius: 25px;
+
+            text-decoration: none;
+
+            margin-left: 18px !important;
+
+            display: inline-block;
+
+            transition:
+                background-color 0.25s ease,
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+
+        .boton-logout:hover {
+
+            background-color: #0b5ed7 !important;
+
+            color: white !important;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 4px 12px rgba(13, 110, 253, 0.35);
+        }
+
+
+        /* ==================================================
+           CONTENIDO
+           ================================================== */
+
+        main {
+
+            padding: 30px;
+        }
+
+
+        /* ==================================================
+           RESPONSIVE
+           ================================================== */
+
+        @media (max-width: 1000px) {
+
+            header {
+
+                padding: 10px 15px;
+
+                flex-wrap: wrap;
+            }
+
+            .menu-superior {
+
+                height: auto;
+
+                flex-wrap: wrap;
+
+                justify-content: flex-end;
+            }
+
+            .usuario {
+
+                margin-top: 5px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+
+    <!-- ==================================================
+         LOGO
+         ================================================== -->
+
+    <a
+        href="{% url 'lista_socios' %}"
+        class="logo-gimm"
+    >
+        GIMM
+    </a>
+
+
+    <!-- ==================================================
+         MENU PRINCIPAL
+         ================================================== -->
+
+    <nav class="menu-superior">
+
+
+        <!-- SOCIOS -->
+
+        <a href="{% url 'lista_socios' %}">
+            + Socios
+        </a>
+
+
+
+        <!-- COBROS -->
+
+        <a href="{% url 'lista_cobros' %}">
+            + Cobros
+        </a>
+
+
+      
+
+
+        <!-- ==================================================
+             INVENTARIO
+             ================================================== -->
+
+        <div
+            class="menu-desplegable"
+            id="menuInventario"
+        >
+
+            <button
+                type="button"
+                class="boton-menu"
+                onclick="mostrarMenuInventario()"
+            >
+
+                + Inventario
+
+                <span class="flecha">
+                    ▼
+                </span>
+
+            </button>
+
+
+            <div class="submenu">
+
+
+                <!-- TIPOS -->
+
+                <a href="{% url 'lista_tipos_articulo' %}">
+                    Tipos de artículo
+                </a>
+
+
+                <!-- CATEGORIAS -->
+
+                <a href="{% url 'lista_categorias_articulo' %}">
+                     Categorías
+                </a>
+
+
+                <!-- PRODUCTOS -->
+                <a href="{% url 'lista_productos' %}">
+                     Productos
+                </a>
+               
+
+
+                <!-- MOVIMIENTOS -->
+
+                <a href="/inventario/movimientos/">
+                    Movimientos
+                </a>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             USUARIO
+             ================================================== -->
+
+        <span class="usuario">
+
+            Usuario:
+            {{ request.user.username }}
+
+        </span>
+
+
+        <!-- ==================================================
+             CERRAR SESION
+             ================================================== -->
+
+        <a
+            href="{% url 'logout' %}"
+            class="boton-logout"
+        >
+
+            Cerrar sesión
+
+        </a>
+
+
+    </nav>
+
+
+</header>
+
+
+<!-- ======================================================
+     CONTENIDO DE CADA PAGINA
+     ====================================================== -->
+
+<main>
+
+    {% block content %}
+
+    {% endblock %}
+
+</main>
+
+
+<!-- ======================================================
+     JAVASCRIPT MENU INVENTARIO
+     ====================================================== -->
+
+<script>
+
+    function mostrarMenuInventario() {
+
+        const menu =
+            document.getElementById(
+                "menuInventario"
+            );
+
+        menu.classList.toggle(
+            "abierto"
+        );
+    }
+
+
+    /*
+     * Cerrar el menú si el usuario
+     * hace clic fuera de Inventario.
+     */
+
+    document.addEventListener(
+        "click",
+        function(event) {
+
+            const menu =
+                document.getElementById(
+                    "menuInventario"
+                );
+
+            if (
+                !menu.contains(event.target)
+            ) {
+
+                menu.classList.remove(
+                    "abierto"
+                );
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

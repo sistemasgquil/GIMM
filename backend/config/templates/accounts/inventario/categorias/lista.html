@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Categorías - GIMM
+{% endblock %}
+
+
+{% block content %}
+
+<h2>Categorías de artículos</h2>
+
+<p>
+    Administración de las categorías del inventario.
+</p>
+
+
+<div style="margin-bottom: 20px;">
+
+    <a
+        href="{% url 'nuevo_categoria_articulo' %}"
+        style="
+            background-color: #198754;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+        "
+    >
+        + Nueva categoría
+    </a>
+
+</div>
+
+
+<table
+    style="
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    "
+>
+
+    <thead>
+
+        <tr style="background-color: #222; color: white;">
+
+            <th style="padding: 12px; text-align: left;">
+                Categoría
+            </th>
+
+            <th style="padding: 12px; text-align: left;">
+                Tipo de artículo
+            </th>
+
+            <th style="padding: 12px; text-align: left;">
+                Descripción
+            </th>
+
+            <th style="padding: 12px; text-align: center;">
+                Estado
+            </th>
+
+            <th style="padding: 12px; text-align: center;">
+                Acciones
+            </th>
+
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+        {% for categoria in categorias %}
+
+        <tr style="border-bottom: 1px solid #dddddd;">
+
+            <td style="padding: 12px;">
+                {{ categoria.nombre }}
+            </td>
+
+            <td style="padding: 12px;">
+                {{ categoria.tipo.nombre }}
+            </td>
+
+            <td style="padding: 12px;">
+                {{ categoria.descripcion|default:"-" }}
+            </td>
+
+            <td style="padding: 12px; text-align: center;">
+
+                {% if categoria.activo %}
+
+                    <span
+                        style="
+                            background-color: #198754;
+                            color: white;
+                            padding: 5px 10px;
+                            border-radius: 15px;
+                        "
+                    >
+                        Activa
+                    </span>
+
+                {% else %}
+
+                    <span
+                        style="
+                            background-color: #6c757d;
+                            color: white;
+                            padding: 5px 10px;
+                            border-radius: 15px;
+                        "
+                    >
+                        Inactiva
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+
+            <td style="padding: 12px; text-align: center;">
+
+                <a
+                    href="{% url 'editar_categoria_articulo' categoria.id %}"
+                    style="
+                        background-color: #0d6efd;
+                        color: white;
+                        padding: 6px 12px;
+                        border-radius: 5px;
+                        text-decoration: none;
+                    "
+                >
+                    Editar
+                </a>
+
+
+                <form
+                    method="POST"
+                    action="{% url 'cambiar_estado_categoria_articulo' categoria.id %}"
+                    style="display: inline;"
+                >
+
+                    {% csrf_token %}
+
+                    {% if categoria.activo %}
+
+                        <button
+                            type="submit"
+                            style="
+                                background-color: #dc3545;
+                                color: white;
+                                border: none;
+                                padding: 6px 12px;
+                                border-radius: 5px;
+                                cursor: pointer;
+                            "
+                        >
+                            Desactivar
+                        </button>
+
+                    {% else %}
+
+                        <button
+                            type="submit"
+                            style="
+                                background-color: #198754;
+                                color: white;
+                                border: none;
+                                padding: 6px 12px;
+                                border-radius: 5px;
+                                cursor: pointer;
+                            "
+                        >
+                            Activar
+                        </button>
+
+                    {% endif %}
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+
+            <td
+                colspan="5"
+                style="
+                    padding: 30px;
+                    text-align: center;
+                    color: #666;
+                "
+            >
+                No existen categorías registradas.
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

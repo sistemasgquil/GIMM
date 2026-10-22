@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Socios - GIMM</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 30px;
+        background-color: #f4f6f8;
+    }
+
+    .contenedor {
+        max-width: 1200px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    .busqueda {
+        margin-bottom: 20px;
+    }
+
+    .busqueda input {
+        padding: 10px;
+        width: 300px;
+    }
+
+    .busqueda button {
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+
+    .limpiar {
+        margin-left: 10px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        background-color: #333;
+        color: white;
+        padding: 12px;
+        text-align: left;
+    }
+
+    td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .activo {
+        color: green;
+        font-weight: bold;
+    }
+
+    .inactivo {
+        color: red;
+        font-weight: bold;
+    }
+
+    .accion {
+        padding: 6px 10px;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-right: 5px;
+    }
+
+    .editar {
+        background-color: #ddd;
+        color: #222;
+    }
+
+    .estado {
+        background-color: #333;
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .sin-datos {
+        text-align: center;
+        padding: 20px;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="contenedor">
+
+```
+<h1>Lista de Socios</h1>
+
+<form method="GET" class="busqueda">
+
+    <input
+        type="text"
+        name="buscar"
+        placeholder="Buscar por nombre, apellido o cédula"
+        value="{{ buscar }}"
+    >
+
+    <button type="submit">
+        Buscar
+    </button>
+
+    {% if buscar %}
+        <a href="{% url 'lista_socios' %}" class="limpiar">
+            Limpiar
+        </a>
+    {% endif %}
+
+</form>
+
+<table>
+
+    <thead>
+        <tr>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Cédula</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Fecha registro</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for socio in socios %}
+
+        <tr>
+
+            <td>{{ socio.nombres }}</td>
+
+            <td>{{ socio.apellidos }}</td>
+
+            <td>{{ socio.cedula }}</td>
+
+            <td>{{ socio.telefono }}</td>
+
+            <td>{{ socio.email }}</td>
+
+            <td>{{ socio.fecha_registro }}</td>
+
+            <td>
+                {% if socio.activo %}
+                    <span class="activo">Activo</span>
+                {% else %}
+                    <span class="inactivo">Inactivo</span>
+                {% endif %}
+            </td>
+
+            <td>
+
+                <a
+                    href="{% url 'editar_socio' socio.id %}"
+                    class="accion editar"
+                >
+                    Editar
+                </a>
+
+                <form
+                    method="POST"
+                    action="{% url 'cambiar_estado_socio' socio.id %}"
+                    style="display:inline;"
+                >
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="estado">
+
+                        {% if socio.activo %}
+                            Desactivar
+                        {% else %}
+                            Activar
+                        {% endif %}
+
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+            <td colspan="8" class="sin-datos">
+                {% if buscar %}
+                    No se encontraron socios para "{{ buscar }}".
+                {% else %}
+                    No existen socios registrados.
+                {% endif %}
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+```
+
+</div>
+
+</body>
+</html>

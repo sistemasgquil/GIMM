@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Productos - GIMM{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'accounts/css/productos.css' %}">
+
+<div class="contenedor-productos">
+
+    <!-- ENCABEZADO -->
+    <div class="encabezado-productos">
+
+        <div>
+            <h2>Productos</h2>
+
+            <p>
+                Administración de productos del inventario.
+            </p>
+        </div>
+
+        <a href="{% url 'nuevo_producto' %}" class="boton-nuevo">
+            ➕  Nuevo producto
+        </a>
+
+    </div>
+
+    <!-- LISTADO DE PRODUCTOS -->
+    {% if productos %}
+
+        <div class="tabla-responsive">
+
+            <table class="tabla-productos">
+
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Producto</th>
+                        <th>Tipo</th>
+                        <th>Categoría</th>
+                        <th>Proveedor</th>
+                        <th>Precio compra</th>
+                        <th>Precio venta</th>
+                        <th>Stock</th>
+                        <th>Unidad</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for producto in productos %}
+
+                        <tr>
+
+                            <td>
+                                {{ producto.codigo }}
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ producto.nombre }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ producto.tipo.nombre }}
+                            </td>
+
+                            <td>
+                                {{ producto.categoria.nombre }}
+                            </td>
+
+                            <td>
+                                {{ producto.proveedor|default:"-" }}
+                            </td>
+
+                            <td>
+                                ${{ producto.precio_compra|floatformat:2 }}
+                            </td>
+
+                            <td>
+                                ${{ producto.precio_venta|floatformat:2 }}
+                            </td>
+
+                            <!-- CONTROL DEL STOCK -->
+                            <td>
+
+                                {% if producto.stock <= producto.stock_minimo %}
+
+                                    <span class="estado-stock stock-bajo">
+                                        {{ producto.stock|floatformat:2 }}
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="estado-stock stock-normal">
+                                        {{ producto.stock|floatformat:2 }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ producto.get_unidad_medida_display }}
+                            </td>
+
+                            <!-- ESTADO DEL PRODUCTO -->
+                            <td>
+
+                                {% if producto.activo %}
+
+                                    <span class="estado-producto activo">
+                                        Activo
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="estado-producto inactivo">
+                                        Inactivo
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <!-- ACCIONES -->
+                            <td>
+
+                                <div class="acciones-producto">
+
+                                    <a
+                                        href="{% url 'editar_producto' producto.id %}"
+                                        class="boton-editar"
+                                    >
+                                        Editar
+                                    </a>
+
+                                    <form
+                                        method="POST"
+                                        action="{% url 'cambiar_estado_producto' producto.id %}"
+                                        class="formulario-estado"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        {% if producto.activo %}
+
+                                            <button
+                                                type="submit"
+                                                class="boton-desactivar"
+                                            >
+                                                Desactivar
+                                            </button>
+
+                                        {% else %}
+
+                                            <button
+                                                type="submit"
+                                                class="boton-activar"
+                                            >
+                                                Activar
+                                            </button>
+
+                                        {% endif %}
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="mensaje-vacio">
+            No existen productos registrados.
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

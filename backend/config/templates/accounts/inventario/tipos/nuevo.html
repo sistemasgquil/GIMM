@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Nuevo tipo de artículo - GIMM
+{% endblock %}
+
+{% block content %}
+
+<h2>Nuevo tipo de artículo</h2>
+
+<p>
+    Registre un nuevo tipo de artículo para el inventario.
+</p>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <div style="margin-bottom: 15px;">
+
+        <label>
+            <strong>Nombre</strong>
+        </label>
+
+        <br>
+
+        <input
+            type="text"
+            name="nombre"
+            maxlength="100"
+            required
+            style="
+                width: 100%;
+                max-width: 500px;
+                padding: 10px;
+                margin-top: 5px;
+            "
+        >
+
+    </div>
+
+
+    <div style="margin-bottom: 20px;">
+
+        <label>
+            <strong>Descripción</strong>
+        </label>
+
+        <br>
+
+        <textarea
+            name="descripcion"
+            rows="4"
+            style="
+                width: 100%;
+                max-width: 500px;
+                padding: 10px;
+                margin-top: 5px;
+            "
+        ></textarea>
+
+    </div>
+
+
+    <button
+        type="submit"
+        style="
+            background-color: #198754;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        "
+    >
+        Guardar tipo
+    </button>
+
+
+    <a
+        href="{% url 'lista_tipos_articulo' %}"
+        style="
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-left: 8px;
+        "
+    >
+        Cancelar
+    </a>
+
+</form>
+
+{% endblock %}

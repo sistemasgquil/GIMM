@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Nueva categoría - GIMM
+{% endblock %}
+
+
+{% block content %}
+
+<h2>Nueva categoría</h2>
+
+<p>
+    Registre una nueva categoría para el inventario.
+</p>
+
+
+{% if error %}
+
+<div
+    style="
+        background-color: #f8d7da;
+        color: #842029;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    "
+>
+    {{ error }}
+</div>
+
+{% endif %}
+
+
+<form method="POST">
+
+    {% csrf_token %}
+
+
+    <div style="margin-bottom: 15px;">
+
+        <label>
+            <strong>Tipo de artículo</strong>
+        </label>
+
+        <br>
+
+        <select
+            name="tipo"
+            required
+            style="
+                width: 100%;
+                max-width: 500px;
+                padding: 10px;
+                margin-top: 5px;
+            "
+        >
+
+            <option value="">
+                Seleccione un tipo
+            </option>
+
+
+            {% for tipo in tipos %}
+
+            <option value="{{ tipo.id }}">
+
+                {{ tipo.nombre }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+
+    <div style="margin-bottom: 15px;">
+
+        <label>
+            <strong>Nombre de la categoría</strong>
+        </label>
+
+        <br>
+
+        <input
+            type="text"
+            name="nombre"
+            maxlength="100"
+            required
+            style="
+                width: 100%;
+                max-width: 500px;
+                padding: 10px;
+                margin-top: 5px;
+            "
+        >
+
+    </div>
+
+
+    <div style="margin-bottom: 20px;">
+
+        <label>
+            <strong>Descripción</strong>
+        </label>
+
+        <br>
+
+        <textarea
+            name="descripcion"
+            rows="4"
+            style="
+                width: 100%;
+                max-width: 500px;
+                padding: 10px;
+                margin-top: 5px;
+            "
+        ></textarea>
+
+    </div>
+
+
+    <button
+        type="submit"
+        style="
+            background-color: #198754;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        "
+    >
+        Guardar categoría
+    </button>
+
+
+    <a
+        href="{% url 'lista_categorias_articulo' %}"
+        style="
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-left: 8px;
+        "
+    >
+        Cancelar
+    </a>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}Cobros - GIMM{% endblock %}
+
+{% block content %}
+
+<style>
+
+     .encabezado {
+        display: flex;
+        justify-content: space-between;
+        align-items: right;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        color: #333;
+        margin: 0;
+    }
+
+    .boton-nuevo {
+        background-color: #198754;
+        color: white;
+        padding: 10px 16px;
+        text-decoration: none;
+        border-radius: 5px;
+        align-content: flex-end;
+        
+    }
+
+    .boton-nuevo:hover {
+        background-color: #157347;
+        align-items: right;
+    }
+
+   
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #333;
+        color: white;
+    }
+
+   
+
+</style>
+
+
+<h1>Registro de Cobros</h1>
+
+<p>
+    Aquí se mostrarán los pagos registrados de los socios.
+</p>
+  <!-- NUEVO COBRO -->
+
+    
+         <a
+        href="{% url 'nuevo_cobro' %}"
+        class="boton-nuevo" align="right"
+    >
+        ➕ Nuevo Cobros
+    </a>
+
+{% if cobros %}
+</br>
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Socio</th>
+            <th>Concepto</th>
+            <th>Fecha de cobro</th>
+            <th>Vencimiento</th>
+            <th>Valor</th>
+            <th>Método de pago</th>
+            <th>Estado</th>
+            <th>Observación</th>
+            <th>Observación</th>
+            <!-- <th>Acciones</th> -->
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for cobro in cobros %}
+
+        <tr>
+            <td>
+                {{ cobro.socio.nombres }}
+                {{ cobro.socio.apellidos }}
+            </td>
+
+            <td>
+                {{ cobro.concepto }}
+            </td>
+
+            <td>
+                {{ cobro.fecha_cobro|date:"d/m/Y" }}
+            </td>
+
+            <td>
+                {% if cobro.fecha_vencimiento %}
+                    {{ cobro.fecha_vencimiento|date:"d/m/Y" }}
+                {% else %}
+                    —
+                {% endif %}
+            </td>
+
+            <td>
+                ${{ cobro.valor }}
+            </td>
+
+            <td>
+                {{ cobro.get_metodo_pago_display }}
+            </td>
+
+            <td>
+                {{ cobro.get_estado_display }}
+            </td>
+
+            <td>
+                {{ cobro.observacion|default:"—" }}
+            </td>
+            <td>
+                <a href="{% url 'comprobante_cobro' cobro.id %}">
+                Comprobante
+            </a>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% else %}
+
+<p>
+    No existen cobros registrados.
+</p>
+
+{% endif %}
+
+{% endblock %}

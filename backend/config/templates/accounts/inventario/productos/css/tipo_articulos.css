@@ -1,0 +1,247 @@
+/* =====================================================
+   GIMM - INVENTARIO - TIPOS DE ARTÍCULO
+   Estilos del módulo de tipos de artículos
+   ===================================================== */
+
+
+/* CONTENEDOR PRINCIPAL */
+
+.contenedor-tipos-articulo {
+    width: 100%;
+    max-width: 1200px;
+    margin: 25px auto;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+
+/* ENCABEZADO */
+
+.encabezado-tipos-articulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.encabezado-tipos-articulo h2 {
+    margin: 0 0 8px;
+    color: #333333;
+    font-size: 26px;
+}
+
+.encabezado-tipos-articulo p {
+    margin: 0;
+    color: #666666;
+    font-size: 14px;
+}
+
+
+/* FECHA Y HORA */
+
+.fecha-hora {
+    margin-bottom: 20px;
+    color: #555555;
+    font-size: 14px;
+}
+
+
+/* BOTONES */
+
+.boton-nuevo {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: #198754;
+    color: #ffffff;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.boton-nuevo:hover {
+    background-color: #157347;
+    color: #ffffff;
+}
+
+
+/* TABLA RESPONSIVE */
+
+.tabla-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.tabla-tipos-articulo {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+.tabla-tipos-articulo thead th {
+    padding: 12px;
+    background-color: #333333;
+    color: #ffffff;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1px solid #444444;
+}
+
+.tabla-tipos-articulo tbody td {
+    padding: 12px;
+    color: #333333;
+    text-align: left;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+}
+
+.tabla-tipos-articulo tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+
+/* ESTADO DEL TIPO DE ARTÍCULO */
+
+.estado-tipo {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.estado-tipo-activo {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.estado-tipo-inactivo {
+    background-color: #e2e3e5;
+    color: #41464b;
+}
+
+
+/* BOTONES DE ACCIONES */
+
+.boton-accion {
+    display: inline-block;
+    margin: 2px;
+    padding: 7px 10px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+
+/* EDITAR */
+
+.boton-editar {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.boton-editar:hover {
+    background-color: #e0a800;
+    color: #212529;
+}
+
+
+/* DESACTIVAR */
+
+.boton-desactivar {
+    background-color: #dc3545;
+    color: #ffffff;
+}
+
+.boton-desactivar:hover {
+    background-color: #bb2d3b;
+    color: #ffffff;
+}
+
+
+/* ACTIVAR */
+
+.boton-activar {
+    background-color: #198754;
+    color: #ffffff;
+}
+
+.boton-activar:hover {
+    background-color: #157347;
+    color: #ffffff;
+}
+
+
+/* MENSAJE SIN REGISTROS */
+
+.mensaje-vacio {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #e7f1ff;
+    color: #084298;
+    text-align: center;
+    border-radius: 5px;
+}
+
+
+/* BOTÓN VOLVER */
+
+.boton-volver {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 16px;
+    background-color: #0d6efd;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.boton-volver:hover {
+    background-color: #0b5ed7;
+    color: #ffffff;
+}
+
+
+/* DISEÑO PARA MÓVILES Y TABLETS */
+
+@media (max-width: 768px) {
+
+    .contenedor-tipos-articulo {
+        margin: 15px auto;
+        padding: 15px;
+    }
+
+    .encabezado-tipos-articulo {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .encabezado-tipos-articulo h2 {
+        font-size: 22px;
+    }
+
+    .tabla-tipos-articulo thead th,
+    .tabla-tipos-articulo tbody td {
+        padding: 9px;
+        font-size: 13px;
+    }
+
+    .boton-accion {
+        margin: 3px 0;
+    }
+}

@@ -1,0 +1,357 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Socios - GIMM
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    .fecha-hora {
+        margin-bottom: 20px;
+        color: #555;
+        font-size: 14px;
+    }
+
+    .encabezado {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        color: #333;
+        margin: 0;
+    }
+
+    .boton-nuevo {
+        background-color: #198754;
+        color: white;
+        padding: 10px 16px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .boton-nuevo:hover {
+        background-color: #157347;
+    }
+
+    .busqueda {
+        background-color: white;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+    .busqueda input {
+        padding: 9px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .boton-buscar {
+        padding: 9px 15px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .boton-limpiar {
+        padding: 9px 15px;
+        background-color: #6c757d;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #333;
+        color: white;
+    }
+
+    .sin-datos {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .boton-editar {
+        background-color: #ffc107;
+        color: #212529;
+        padding: 7px 12px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    .boton-editar:hover {
+        background-color: #e0a800;
+    }
+
+    .boton-activar {
+        background-color: #198754;
+        color: white;
+        padding: 7px 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .boton-activar:hover {
+        background-color: #157347;
+    }
+
+    .boton-desactivar {
+        background-color: #dc3545;
+        color: white;
+        padding: 7px 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .boton-desactivar:hover {
+        background-color: #bb2d3b;
+    }
+
+</style>
+
+
+<!-- FECHA Y HORA -->
+
+<div
+    id="fecha-hora"
+    class="fecha-hora"
+>
+</div>
+
+
+<script>
+
+    function actualizarFechaHora() {
+
+        const ahora = new Date();
+
+        const opcionesFecha = {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        };
+
+        const fecha = ahora.toLocaleDateString(
+            'es-EC',
+            opcionesFecha
+        );
+
+        const hora = ahora.toLocaleTimeString(
+            'es-EC'
+        );
+
+        document.getElementById('fecha-hora').textContent =
+            `Fecha: ${fecha} | Hora: ${hora}`;
+    }
+
+    actualizarFechaHora();
+
+    setInterval(
+        actualizarFechaHora,
+        1000
+    );
+
+</script>
+
+
+<!-- ENCABEZADO -->
+
+<div class="encabezado">
+
+    <h1>Lista de Socios</h1>
+
+    <a
+        href="{% url 'nuevo_socio' %}"
+        class="boton-nuevo"
+    >
+        ➕ Nuevo Socio
+    </a>
+
+</div>
+
+
+<!-- BÚSQUEDA -->
+
+<div class="busqueda">
+
+    <form method="GET">
+
+        <input
+            type="text"
+            name="buscar"
+            value="{{ buscar }}"
+            placeholder="Buscar por nombre, apellido o cédula"
+        >
+
+        <button
+            type="submit"
+            class="boton-buscar"
+        >
+            🔍 Buscar
+        </button>
+
+        <a
+            href="{% url 'lista_socios' %}"
+            class="boton-limpiar"
+        >
+            Limpiar
+        </a>
+
+    </form>
+
+</div>
+
+
+<!-- TABLA DE SOCIOS -->
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Cédula</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Activo</th>
+            <th>Acciones</th>
+
+        </tr>
+
+    </thead>
+
+
+    <tbody>
+
+        {% for socio in socios %}
+
+        <tr>
+
+            <td>
+                {{ socio.nombres }}
+            </td>
+
+            <td>
+                {{ socio.apellidos }}
+            </td>
+
+            <td>
+                {{ socio.cedula }}
+            </td>
+
+            <td>
+                {{ socio.telefono }}
+            </td>
+
+            <td>
+                {{ socio.email }}
+            </td>
+
+            <td>
+
+                {% if socio.activo %}
+                    Sí
+                {% else %}
+                    No
+                {% endif %}
+
+            </td>
+
+
+            <!-- ACCIONES -->
+
+            <td>
+
+                <a
+                    href="{% url 'editar_socio' socio.id %}"
+                    class="boton-editar"
+                >
+                    ✏️ Editar
+                </a>
+
+
+                <form
+                    method="POST"
+                    action="{% url 'cambiar_estado_socio' socio.id %}"
+                    style="display: inline;"
+                >
+
+                    {% csrf_token %}
+
+
+                    {% if socio.activo %}
+
+                        <button
+                            type="submit"
+                            class="boton-desactivar"
+                        >
+                            Desactivar
+                        </button>
+
+                    {% else %}
+
+                        <button
+                            type="submit"
+                            class="boton-activar"
+                        >
+                            Activar
+                        </button>
+
+                    {% endif %}
+
+                </form>
+
+            </td>
+
+        </tr>
+
+
+        {% empty %}
+
+        <tr>
+
+            <td
+                colspan="7"
+                class="sin-datos"
+            >
+                No existen socios registrados.
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}
+
