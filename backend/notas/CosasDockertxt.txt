@@ -47,6 +47,9 @@ python manage.py migrate
 instalo lo del pdf:
 en el bash del entorno virtual, le pongo: pip install weasyprint
 
+git config --global user.name "https://github.com/sistemasgquil"
+git config --global user.email "Tsistemasgquil@gmail.com"
+
 
 
 
