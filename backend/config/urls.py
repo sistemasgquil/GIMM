@@ -31,6 +31,7 @@ from accounts.views import (
     nuevo_producto,
     editar_producto,
     cambiar_estado_producto,
+    reporte_usuarios,
 )
 
 
@@ -182,6 +183,12 @@ path(
     'inventario/productos/estado/<int:id>/',
     cambiar_estado_producto,
     name='cambiar_estado_producto'
+),
+# Reporte de usuarios
+path(
+    'reportes/usuarios/',
+    reporte_usuarios,
+    name='reporte_usuarios',
 ),
 
 ]

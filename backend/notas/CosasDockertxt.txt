@@ -34,6 +34,10 @@ templates/accounts/socios/lista.html
 source ../.venv/bin/activate
 python manage.py runserver
 
+-------------------------------------------- GITHUB--------------------
+git status
+
+
 RUTA WEB: http://127.0.0.1:8000/login/
 
 ls -l config/templates/accounts/socios/
@@ -49,7 +53,7 @@ en el bash del entorno virtual, le pongo: pip install weasyprint
 
 git config --global user.name "https://github.com/sistemasgquil"
 git config --global user.email "Tsistemasgquil@gmail.com"
-
+git remote add origin https://github.com/sistemasgquil/GIMM
 
 
 

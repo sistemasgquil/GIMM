@@ -15,7 +15,9 @@ from .models import (
     Producto,
     MovimientoInventario,
 )
-
+from django.contrib.auth.models import User
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 # ==========================================================
 # LOGIN
@@ -1205,4 +1207,62 @@ def nuevo_producto(request):
             'tipos': tipos,
             'categorias': categorias,
         }
+    )
+# region de Reportes: socios..
+@login_required
+def reporte_usuarios(request):
+    usuarios = User.objects.select_related('profile').all().order_by('username')
+
+    # Búsqueda por usuario, nombres, apellidos o correo
+    buscar = request.GET.get('buscar', '').strip()
+
+    if buscar:
+        usuarios = usuarios.filter(
+            Q(username__icontains=buscar)
+            | Q(first_name__icontains=buscar)
+            | Q(last_name__icontains=buscar)
+            | Q(email__icontains=buscar)
+        )
+
+    # Filtro por rol
+    rol = request.GET.get('rol', '').strip()
+
+    if rol in ['ADMIN', 'RECEPTION', 'INSTRUCTOR']:
+        usuarios = usuarios.filter(profile__role=rol)
+
+    # Filtro por estado de la cuenta
+    estado = request.GET.get('estado', '').strip()
+
+    if estado == 'activo':
+        usuarios = usuarios.filter(is_active=True, profile__active=True)
+    elif estado == 'inactivo':
+        usuarios = usuarios.filter(
+            Q(is_active=False) | Q(profile__active=False)
+        )
+
+    # Resumen general de usuarios
+    total_usuarios = User.objects.count()
+
+    usuarios_activos = User.objects.filter(
+        is_active=True,
+        profile__active=True
+    ).count()
+
+    usuarios_inactivos = total_usuarios - usuarios_activos
+
+    contexto = {
+        'usuarios': usuarios,
+        'buscar': buscar,
+        'rol_seleccionado': rol,
+        'estado_seleccionado': estado,
+        'total_usuarios': total_usuarios,
+        'usuarios_activos': usuarios_activos,
+        'usuarios_inactivos': usuarios_inactivos,
+    }
+
+    return render(
+        request,
+        #'accounts/reportes/usuarios.html',
+        'reportes/usuarios.html',
+        contexto
     )

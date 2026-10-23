@@ -1,0 +1,224 @@
+```css
+/* ==========================================
+   GIMM - Reporte de usuarios
+   ========================================== */
+
+.reporte-usuarios {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+/* Encabezado */
+
+.reporte-usuarios .reporte-encabezado h2 {
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+}
+
+.reporte-usuarios .reporte-descripcion {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* Tarjetas de resumen */
+
+.reporte-usuarios .tarjeta-resumen {
+    height: 100%;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    background-color: #ffffff;
+    transition: box-shadow 0.2s ease;
+}
+
+.reporte-usuarios .tarjeta-resumen:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.reporte-usuarios .tarjeta-resumen .card-body {
+    padding: 1.25rem;
+}
+
+.reporte-usuarios .tarjeta-resumen h6 {
+    margin-bottom: 0.7rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.reporte-usuarios .tarjeta-resumen h3 {
+    margin-bottom: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* Paneles */
+
+.reporte-usuarios .panel-reporte {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.reporte-usuarios .panel-reporte > .card-body {
+    padding: 1.25rem;
+}
+
+/* Formulario de búsqueda */
+
+.reporte-usuarios .form-label {
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+}
+
+.reporte-usuarios .form-control,
+.reporte-usuarios .form-select {
+    min-height: 40px;
+    border-radius: 6px;
+}
+
+.reporte-usuarios .form-control:focus,
+.reporte-usuarios .form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* Botones */
+
+.reporte-usuarios .btn {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.reporte-usuarios .boton-imprimir {
+    padding: 0.55rem 1rem;
+}
+
+/* Tabla */
+
+.reporte-usuarios .tabla-reporte {
+    margin-bottom: 0;
+    font-size: 0.92rem;
+}
+
+.reporte-usuarios .tabla-reporte thead th {
+    padding: 0.85rem 0.75rem;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-weight: 600;
+}
+
+.reporte-usuarios .tabla-reporte tbody td {
+    padding: 0.75rem;
+    vertical-align: middle;
+}
+
+.reporte-usuarios .tabla-reporte tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+.reporte-usuarios .estado-usuario {
+    display: inline-block;
+    min-width: 70px;
+    padding: 0.35rem 0.6rem;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+/* Resultado de la consulta */
+
+.reporte-usuarios .total-resultados {
+    margin-top: 1rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Adaptación a pantallas pequeñas */
+
+@media (max-width: 768px) {
+    .reporte-usuarios {
+        padding-top: 1rem;
+    }
+
+    .reporte-usuarios .reporte-encabezado {
+        align-items: flex-start !important;
+    }
+
+    .reporte-usuarios .reporte-encabezado h2 {
+        font-size: 1.5rem;
+    }
+
+    .reporte-usuarios .boton-imprimir {
+        width: 100%;
+    }
+
+    .reporte-usuarios .panel-reporte > .card-body {
+        padding: 0.85rem;
+    }
+
+    .reporte-usuarios .tabla-reporte {
+        font-size: 0.85rem;
+    }
+}
+
+/* Impresión del reporte */
+
+@media print {
+    nav,
+    header,
+    footer,
+    form,
+    .btn,
+    .menu-desplegable,
+    .boton-menu {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    .reporte-usuarios {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .reporte-usuarios .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .reporte-usuarios .card,
+    .reporte-usuarios .panel-reporte,
+    .reporte-usuarios .tarjeta-resumen {
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .reporte-usuarios .tabla-reporte {
+        width: 100% !important;
+        font-size: 9px;
+    }
+
+    .reporte-usuarios .tabla-reporte thead th,
+    .reporte-usuarios .tabla-reporte tbody td {
+        padding: 5px !important;
+    }
+
+    .reporte-usuarios .reporte-encabezado h2 {
+        margin-bottom: 10px;
+        color: #000000 !important;
+    }
+
+    .reporte-usuarios .table-dark th {
+        background-color: #e9ecef !important;
+        color: #000000 !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+}

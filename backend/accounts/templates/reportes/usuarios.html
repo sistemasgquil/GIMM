@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <!-- Encabezado -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h2>Reporte de usuarios</h2>
+            <p class="text-muted mb-0">
+                Consulta y revisa los usuarios registrados en GIMM.
+            </p>
+        </div>
+
+        <button
+            type="button"
+            class="btn btn-primary"
+            onclick="window.print()">
+            Imprimir reporte
+        </button>
+    </div>
+
+    <!-- Resumen -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Total de usuarios</h6>
+                    <h3>{{ total_usuarios }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Usuarios activos</h6>
+                    <h3 class="text-success">{{ usuarios_activos }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Usuarios inactivos</h6>
+                    <h3 class="text-danger">{{ usuarios_inactivos }}</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Búsqueda y filtros -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <form method="get" class="row g-3 align-items-end">
+
+                <div class="col-md-5">
+                    <label for="buscar" class="form-label">
+                        Buscar usuario
+                    </label>
+
+                    <input
+                        type="text"
+                        name="buscar"
+                        id="buscar"
+                        class="form-control"
+                        placeholder="Usuario, nombre o correo"
+                        value="{{ buscar }}">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="rol" class="form-label">Rol</label>
+
+                    <select name="rol" id="rol" class="form-select">
+                        <option value="">Todos los roles</option>
+
+                        <option value="ADMIN"
+                            {% if rol_seleccionado == 'ADMIN' %}selected{% endif %}>
+                            Administrador
+                        </option>
+
+                        <option value="RECEPTION"
+                            {% if rol_seleccionado == 'RECEPTION' %}selected{% endif %}>
+                            Recepción
+                        </option>
+
+                        <option value="INSTRUCTOR"
+                            {% if rol_seleccionado == 'INSTRUCTOR' %}selected{% endif %}>
+                            Instructor
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="estado" class="form-label">Estado</label>
+
+                    <select name="estado" id="estado" class="form-select">
+                        <option value="">Todos</option>
+
+                        <option value="activo"
+                            {% if estado_seleccionado == 'activo' %}selected{% endif %}>
+                            Activos
+                        </option>
+
+                        <option value="inactivo"
+                            {% if estado_seleccionado == 'inactivo' %}selected{% endif %}>
+                            Inactivos
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        Buscar
+                    </button>
+
+                    <a
+                        href="{% url 'reporte_usuarios' %}"
+                        class="btn btn-outline-secondary">
+                        Limpiar
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Nombres</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Último acceso</th>
+                            <th>Fecha de registro</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario.username }}</td>
+
+                            <td>
+                                {{ usuario.first_name|default:"-" }}
+                                {{ usuario.last_name }}
+                            </td>
+
+                            <td>{{ usuario.email|default:"-" }}</td>
+
+                            <td>
+                                {% if usuario.profile.phone %}
+                                    {{ usuario.profile.phone }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+
+                            <td>{{ usuario.profile.get_role_display }}</td>
+
+                            <td>
+                                {% if usuario.is_active and usuario.profile.active %}
+                                    <span class="badge bg-success">Activo</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Inactivo</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if usuario.last_login %}
+                                    {{ usuario.last_login|date:"d/m/Y H:i" }}
+                                {% else %}
+                                    Nunca
+                                {% endif %}
+                            </td>
+
+                            <td>{{ usuario.date_joined|date:"d/m/Y" }}</td>
+                        </tr>
+
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center py-4">
+                                No se encontraron usuarios con los criterios seleccionados.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+            <p class="text-muted mb-0">
+                Usuarios encontrados en esta consulta: {{ usuarios|length }}
+            </p>
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+    @media print {
+        nav,
+        header,
+        footer,
+        form,
+        .btn {
+            display: none !important;
+        }
+
+        body {
+            background: white !important;
+        }
+
+        .container {
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .card {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .table {
+            font-size: 10px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+    }
+</style>
+
+{% endblock %}
