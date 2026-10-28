@@ -33,6 +33,7 @@ from accounts.views import (
     cambiar_estado_producto,
     reporte_usuarios,
 )
+from accounts.views import lista_movimientos
 
 
 
@@ -184,6 +185,12 @@ path(
     cambiar_estado_producto,
     name='cambiar_estado_producto'
 ),
+path(
+    'inventario/movimientos/',
+    lista_movimientos,
+    name='lista_movimientos',
+),
+
 # Reporte de usuarios
 path(
     'reportes/usuarios/',

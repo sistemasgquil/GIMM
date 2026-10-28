@@ -55,5 +55,14 @@ git config --global user.name "https://github.com/sistemasgquil"
 git config --global user.email "Tsistemasgquil@gmail.com"
 git remote add origin https://github.com/sistemasgquil/GIMM
 
+_________________________________________ base postgreSQL___________________
+gimm_user
+Sysadm7xxxxxxxzzzzz
+docker exec -it gimm_postgres psql -U gimm_user -d gimm
+\password gimm_user
+******************************************** copias de seguridad docker y base de datos **************
+docker exec gimm_postgres pg_dump -U gimm_user -d gimm -Fc > ~/respaldos_gimm/gimm_$(date +%Y-%m-%d_%H-%M-%S).dump
+
+
 
 

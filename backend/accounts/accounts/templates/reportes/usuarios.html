@@ -1,63 +1,37 @@
-```django
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Reporte de usuarios | GIMM{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/reportes_usuarios.css' %}">
+{% endblock %}
+
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'accounts/css/reportes_usuarios.css' %}">
+<div class="reporte-usuarios">
 
-<div class="container mt-4 reporte-usuarios">
-
-    <!-- Encabezado -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 reporte-encabezado">
-
+    <div class="reporte-encabezado">
         <div>
             <h2>Reporte de usuarios</h2>
-
             <p class="reporte-descripcion">
-                Consulta y revisa los usuarios registrados en GIMM.
+                Consulta y resumen de los usuarios registrados en GIMM.
             </p>
         </div>
 
         <button
             type="button"
-            class="btn btn-primary boton-imprimir"
+            class="boton-imprimir"
             onclick="window.print()">
             Imprimir reporte
         </button>
-
     </div>
 
-    <!-- Resumen de usuarios -->
-    <div class="row g-3 mb-4">
+    <div class="tarjeta-resumen">
+        <h3>Total de usuarios</h3>
+        <p>{{ total_usuarios }}</p>
+    </div>
 
-        <!-- Total de usuarios -->
-        <div class="col-md-4">
-            <div class="card tarjeta-resumen">
-                <div class="card-body">
+</div>
 
-                    <h6>Total de usuarios</h6>
-
-                    <h3>{{ total_usuarios }}</h3>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- Usuarios activos -->
-        <div class="col-md-4">
-            <div class="card tarjeta-resumen">
-                <div class="card-body">
-
-                    <h6>Usuarios activos</h6>
-
-                    <h3 class="text-success">
-                        {{ usuarios_activos }}
-                    </h3>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- Usuarios inactivos -->
-       
+{% endblock %}

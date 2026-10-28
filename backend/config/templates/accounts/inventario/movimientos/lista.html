@@ -1,0 +1,622 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+
+/* =========================================
+   CONTENEDOR GENERAL
+========================================= */
+
+.movimientos-contenedor {
+    margin-top: 25px;
+}
+
+/* =========================================
+   ENCABEZADOS Y PANELES
+========================================= */
+
+.movimientos-panel {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+}
+
+.movimientos-panel .card-header {
+    background-color: #212529;
+    color: white;
+    padding: 15px 20px;
+}
+
+.movimientos-panel .card-header h5 {
+    margin: 0;
+    font-weight: 600;
+}
+
+/* =========================================
+   RESUMEN HORIZONTAL DE MOVIMIENTOS
+========================================= */
+
+.resumen-movimientos {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.resumen-movimientos .card {
+    height: 100%;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    min-width: 0;
+}
+
+.resumen-movimientos .card-body {
+    padding: 10px 14px;
+}
+
+.resumen-movimientos h6 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.resumen-movimientos h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+/* =========================================
+   ENLACE VOLVER A PRODUCTOS
+========================================= */
+
+.boton-volver-productos {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #6c757d;
+    color: white;
+    padding: 9px 15px;
+    border-radius: 7px;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.boton-volver-productos:hover {
+    background-color: #565e64;
+    color: white;
+}
+
+/* =========================================
+   FORMULARIOS
+========================================= */
+
+.movimientos-contenedor .form-control,
+.movimientos-contenedor .form-select {
+    border-radius: 7px;
+    padding: 10px;
+}
+
+.movimientos-contenedor .form-control:focus,
+.movimientos-contenedor .form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* =========================================
+   BOTÓN REGISTRAR MOVIMIENTO
+========================================= */
+
+.boton-grabar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #198754;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 11px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.boton-grabar:hover {
+    background-color: #146c43;
+}
+
+.boton-grabar svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* =========================================
+   TABLA DEL HISTORIAL
+========================================= */
+
+.movimientos-tabla {
+    margin-bottom: 0;
+}
+
+.movimientos-tabla thead th {
+    background-color: #343a40;
+    color: white;
+    padding: 14px;
+    white-space: nowrap;
+}
+
+.movimientos-tabla tbody td {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+/* =========================================
+   DISEÑO RESPONSIVO
+========================================= */
+
+/* Tabletas y pantallas medianas */
+@media (max-width: 900px) {
+    .resumen-movimientos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Teléfonos */
+@media (max-width: 600px) {
+    .movimientos-contenedor {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .resumen-movimientos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .resumen-movimientos .card-body {
+        padding: 9px 10px;
+    }
+
+    .resumen-movimientos h6 {
+        font-size: 12px;
+    }
+
+    .resumen-movimientos h3 {
+        font-size: 21px;
+    }
+
+    .movimientos-panel .card-header {
+        padding: 12px 15px;
+    }
+
+    .boton-grabar {
+        width: 100%;
+    }
+}
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container movimientos-contenedor">
+
+    <!-- =====================================
+         ENCABEZADO
+    ====================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+        <div>
+            <h2>Movimientos de inventario</h2>
+
+            <p class="text-muted mb-0">
+                Registra y consulta las entradas, salidas y ajustes de productos.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         MENSAJES DE DJANGO
+    ====================================== -->
+
+    {% if messages %}
+        {% for message in messages %}
+
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                 role="alert">
+
+                {{ message }}
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Cerrar">
+                </button>
+
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+
+    <!-- =====================================
+         RESUMEN DE MOVIMIENTOS
+    ====================================== -->
+
+    <div class="resumen-movimientos">
+
+        <!-- Total de movimientos -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Total de movimientos
+                </h6>
+
+                <h3>
+                    {{ total_movimientos|default:0 }}
+                </h3>
+
+            </div>
+        </div>
+
+
+        <!-- Entradas -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Entradas
+                </h6>
+
+                <h3 class="text-success">
+                    {{ total_entradas|default:0 }}
+                </h3>
+
+            </div>
+        </div>
+
+
+        <!-- Salidas -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Salidas
+                </h6>
+
+                <h3 class="text-danger">
+                    {{ total_salidas|default:0 }}
+                </h3>
+
+            </div>
+        </div>
+
+
+        <!-- Ajustes -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h6 class="text-muted">
+                    Ajustes
+                </h6>
+
+                <h3 class="text-primary">
+                    {{ total_ajustes|default:0 }}
+                </h3>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         VOLVER A PRODUCTOS
+    ====================================== -->
+
+    <div class="mb-3">
+
+        <a href="{% url 'lista_productos' %}"
+           class="boton-volver-productos">
+
+            &laquo; Volver a productos
+
+        </a>
+
+    </div>
+
+
+    <!-- =====================================
+         FORMULARIO DE REGISTRO
+    ====================================== -->
+
+    <div class="card shadow-sm mb-4 movimientos-panel">
+
+        <div class="card-header">
+            <h5>Registrar movimiento</h5>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="row g-3">
+
+                    <!-- Producto -->
+                    <div class="col-md-6">
+
+                        <label for="producto" class="form-label">
+                            Producto
+                        </label>
+
+                        <select name="producto"
+                                id="producto"
+                                class="form-select"
+                                required>
+
+                            <option value="">
+                                Seleccione un producto
+                            </option>
+
+                            {% for producto in productos %}
+
+                                <option value="{{ producto.id }}">
+
+                                    {{ producto.codigo }} - {{ producto.nombre }}
+                                    (Stock: {{ producto.stock }})
+
+                                </option>
+
+                            {% empty %}
+
+                                <option value="" disabled>
+                                    No hay productos activos registrados
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Tipo de movimiento -->
+                    <div class="col-md-6">
+
+                        <label for="tipo_movimiento" class="form-label">
+                            Tipo de movimiento
+                        </label>
+
+                        <select name="tipo_movimiento"
+                                id="tipo_movimiento"
+                                class="form-select"
+                                required>
+
+                            <option value="">
+                                Seleccione el tipo
+                            </option>
+
+                            <option value="ENTRADA">
+                                Entrada
+                            </option>
+
+                            <option value="SALIDA">
+                                Salida
+                            </option>
+
+                            <option value="AJUSTE">
+                                Ajuste de inventario
+                            </option>
+
+                        </select>
+
+                        <small class="text-muted">
+                            En un ajuste, la cantidad representa el stock final.
+                        </small>
+
+                    </div>
+
+
+                    <!-- Cantidad -->
+                    <div class="col-md-6">
+
+                        <label for="cantidad" class="form-label">
+                            Cantidad:
+                        </label>
+
+                        <input type="number"
+                               name="cantidad"
+                               id="cantidad"
+                               class="form-control"
+                               min="0.01"
+                               step="0.01"
+                               required>
+
+                    </div>
+
+
+                    <!-- Motivo -->
+                    <div class="col-md-6">
+
+                        <label for="motivo" class="form-label">
+                            Motivo:....
+                        </label>
+
+                        <input type="text"
+                               name="motivo"
+                               id="motivo"
+                               class="form-control"
+                               maxlength="200"
+                               placeholder="Ej.: Compra, venta o corrección de stock"
+                               required>
+
+                    </div>
+
+
+                    <!-- Observación -->
+                    <div class="col-12">
+
+                        <label for="observacion" class="form-label">
+                            Observación:
+                        </label>
+
+                        <textarea name="observacion"
+                                  id="observacion"
+                                  class="form-control"
+                                  rows="3"
+                                  placeholder="Observaciones adicionales (opcional)"></textarea>
+
+                    </div>
+
+
+                    <!-- Botón guardar -->
+                    <div class="col-12">
+
+                        <button type="submit" class="boton-grabar">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24"
+                                 fill="currentColor"
+                                 aria-hidden="true">
+
+                                <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6l-4-4zm-6 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H6V4h9v4z"/>
+
+                            </svg>
+
+                            Registrar movimiento
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         HISTORIAL DE MOVIMIENTOS
+    ====================================== -->
+
+    <div class="card shadow-sm mb-4 movimientos-panel">
+
+        <div class="card-header">
+            <h5>Historial de movimientos</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-striped table-hover align-middle movimientos-tabla">
+
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Producto</th>
+                            <th>Tipo</th>
+                            <th>Cantidad</th>
+                            <th>Motivo</th>
+                            <th>Usuario</th>
+                            <th>Observación</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for movimiento in movimientos %}
+
+                            <tr>
+
+                                <td>
+                                    {{ movimiento.fecha|date:"d/m/Y H:i" }}
+                                </td>
+
+                                <td>
+                                    {{ movimiento.producto.codigo }} -
+                                    {{ movimiento.producto.nombre }}
+                                </td>
+
+                                <td>
+
+                                    {% if movimiento.tipo_movimiento == 'ENTRADA' %}
+
+                                        <span class="badge bg-success">
+                                            Entrada
+                                        </span>
+
+                                    {% elif movimiento.tipo_movimiento == 'SALIDA' %}
+
+                                        <span class="badge bg-danger">
+                                            Salida
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-primary">
+                                            Ajuste
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+                                    {{ movimiento.cantidad }}
+                                </td>
+
+                                <td>
+                                    {{ movimiento.motivo }}
+                                </td>
+
+                                <td>
+                                    {{ movimiento.usuario.username }}
+                                </td>
+
+                                <td>
+                                    {{ movimiento.observacion|default:"—" }}
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td colspan="7"
+                                    class="text-center text-muted py-4">
+
+                                    No hay movimientos de inventario registrados.
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

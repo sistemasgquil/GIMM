@@ -1,252 +1,374 @@
 {% extends 'base.html' %}
 
+{% block title %}Reporte de usuarios | GIMM{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* =========================================
+       REPORTE DE USUARIOS - GIMM
+    ========================================= */
+
+    .reporte-usuarios {
+        padding: 25px;
+        background-color: #ffffff;
+        border-radius: 12px;
+    }
+
+    .reporte-encabezado {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .reporte-encabezado h2 {
+        margin: 0 0 8px;
+        color: #212529;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .reporte-descripcion {
+        margin: 0;
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    .boton-imprimir {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 6px;
+        background-color: #0d6efd;
+        color: #ffffff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .boton-imprimir:hover {
+        background-color: #0b5ed7;
+    }
+
+    .tarjetas-resumen {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .tarjeta-resumen {
+        padding: 22px;
+        border: 1px solid #dee2e6;
+        border-left: 5px solid #0d6efd;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+    }
+
+    .tarjeta-resumen h3 {
+        margin: 0 0 12px;
+        color: #6c757d;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .tarjeta-resumen .valor {
+        margin: 0;
+        color: #212529;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .tarjeta-activos {
+        border-left-color: #198754;
+    }
+
+    .tarjeta-inactivos {
+        border-left-color: #dc3545;
+    }
+
+    .seccion-tabla {
+        margin-top: 25px;
+    }
+
+    .seccion-tabla h3 {
+        margin-bottom: 18px;
+        color: #212529;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .tabla-contenedor {
+        overflow-x: auto;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+    }
+
+    .tabla-usuarios {
+        width: 100%;
+        margin: 0;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    .tabla-usuarios thead {
+        background-color: #0d6efd;
+        color: #ffffff;
+    }
+
+    .tabla-usuarios th,
+    .tabla-usuarios td {
+        padding: 13px 15px;
+        border-bottom: 1px solid #dee2e6;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    .tabla-usuarios tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    .tabla-usuarios tbody tr:hover {
+        background-color: #eaf2ff;
+    }
+
+    .estado {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .estado-activo {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .estado-inactivo {
+        background-color: #f8d7da;
+        color: #842029;
+    }
+
+    .sin-registros {
+        padding: 25px;
+        color: #6c757d;
+        text-align: center;
+    }
+
+    .reporte-pie {
+        margin-top: 25px;
+        padding-top: 15px;
+        border-top: 1px solid #dee2e6;
+        color: #6c757d;
+        font-size: 12px;
+        text-align: right;
+    }
+
+    @media (max-width: 768px) {
+        .reporte-usuarios {
+            padding: 15px;
+        }
+
+        .reporte-encabezado h2 {
+            font-size: 23px;
+        }
+
+        .boton-imprimir {
+            width: 100%;
+        }
+
+        .tabla-usuarios {
+            font-size: 12px;
+        }
+
+        .tabla-usuarios th,
+        .tabla-usuarios td {
+            padding: 10px;
+        }
+    }
+
+    @media print {
+        @page {
+            size: landscape;
+            margin: 15mm;
+        }
+
+        body {
+            background: #ffffff !important;
+        }
+
+        .reporte-usuarios {
+            padding: 0;
+        }
+
+        .boton-imprimir,
+        .no-imprimir {
+            display: none !important;
+        }
+
+        .tabla-contenedor {
+            overflow: visible;
+        }
+
+        .tabla-usuarios {
+            font-size: 11px;
+        }
+
+        .tabla-usuarios thead {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .tabla-usuarios tbody tr {
+            break-inside: avoid;
+        }
+
+        .tarjeta-resumen {
+            break-inside: avoid;
+        }
+    }
+</style>
+{% endblock %}
+
+
 {% block content %}
 
-<div class="container mt-4">
+<div class="container mt-4 mb-5">
 
-    <!-- Encabezado -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-        <div>
-            <h2>Reporte de usuarios</h2>
-            <p class="text-muted mb-0">
-                Consulta y revisa los usuarios registrados en GIMM.
-            </p>
-        </div>
+    <div class="reporte-usuarios">
 
-        <button
-            type="button"
-            class="btn btn-primary"
-            onclick="window.print()">
-            Imprimir reporte
-        </button>
-    </div>
+        <!-- ENCABEZADO -->
+        <div class="reporte-encabezado">
 
-    <!-- Resumen -->
-    <div class="row g-3 mb-4">
+            <div>
+                <h2>Reporte de usuarios</h2>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Total de usuarios</h6>
-                    <h3>{{ total_usuarios }}</h3>
-                </div>
+                <p class="reporte-descripcion">
+                    Consulta de usuarios registrados en el sistema GIMM.
+                </p>
             </div>
+
+            <button
+                type="button"
+                class="boton-imprimir"
+                onclick="window.print()">
+                Imprimir reporte
+            </button>
+
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Usuarios activos</h6>
-                    <h3 class="text-success">{{ usuarios_activos }}</h3>
-                </div>
+
+        <!-- TARJETAS DE RESUMEN -->
+        <div class="tarjetas-resumen">
+
+            <div class="tarjeta-resumen">
+                <h3>Total de usuarios</h3>
+                <p class="valor">{{ total_usuarios|default:0 }}</p>
             </div>
-        </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Usuarios inactivos</h6>
-                    <h3 class="text-danger">{{ usuarios_inactivos }}</h3>
-                </div>
+            <div class="tarjeta-resumen tarjeta-activos">
+                <h3>Usuarios activos</h3>
+                <p class="valor">{{ usuarios_activos|default:1 }}</p>
             </div>
-        </div>
 
-    </div>
-
-    <!-- Búsqueda y filtros -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-
-            <form method="get" class="row g-3 align-items-end">
-
-                <div class="col-md-5">
-                    <label for="buscar" class="form-label">
-                        Buscar usuario
-                    </label>
-
-                    <input
-                        type="text"
-                        name="buscar"
-                        id="buscar"
-                        class="form-control"
-                        placeholder="Usuario, nombre o correo"
-                        value="{{ buscar }}">
-                </div>
-
-                <div class="col-md-3">
-                    <label for="rol" class="form-label">Rol</label>
-
-                    <select name="rol" id="rol" class="form-select">
-                        <option value="">Todos los roles</option>
-
-                        <option value="ADMIN"
-                            {% if rol_seleccionado == 'ADMIN' %}selected{% endif %}>
-                            Administrador
-                        </option>
-
-                        <option value="RECEPTION"
-                            {% if rol_seleccionado == 'RECEPTION' %}selected{% endif %}>
-                            Recepción
-                        </option>
-
-                        <option value="INSTRUCTOR"
-                            {% if rol_seleccionado == 'INSTRUCTOR' %}selected{% endif %}>
-                            Instructor
-                        </option>
-                    </select>
-                </div>
-
-                <div class="col-md-2">
-                    <label for="estado" class="form-label">Estado</label>
-
-                    <select name="estado" id="estado" class="form-select">
-                        <option value="">Todos</option>
-
-                        <option value="activo"
-                            {% if estado_seleccionado == 'activo' %}selected{% endif %}>
-                            Activos
-                        </option>
-
-                        <option value="inactivo"
-                            {% if estado_seleccionado == 'inactivo' %}selected{% endif %}>
-                            Inactivos
-                        </option>
-                    </select>
-                </div>
-
-                <div class="col-md-2 d-flex gap-2">
-                    <button type="submit" class="btn btn-primary w-100">
-                        Buscar
-                    </button>
-
-                    <a
-                        href="{% url 'reporte_usuarios' %}"
-                        class="btn btn-outline-secondary">
-                        Limpiar
-                    </a>
-                </div>
-
-            </form>
+            <div class="tarjeta-resumen tarjeta-inactivos">
+                <h3>Usuarios inactivos</h3>
+                <p class="valor">{{ usuarios_inactivos|default:1 }}</p>
+            </div>
 
         </div>
-    </div>
 
-    <!-- Tabla -->
-    <div class="card shadow-sm">
-        <div class="card-body">
 
-            <div class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
+        <!-- TABLA DE USUARIOS -->
+        <div class="seccion-tabla">
 
-                    <thead class="table-dark">
+            <h3>Detalle de usuarios registrados</h3>
+
+            <div class="tabla-contenedor">
+
+                <table class="tabla-usuarios">
+
+                    <thead>
                         <tr>
+                            <th>#</th>
                             <th>Usuario</th>
-                            <th>Nombres</th>
-                            <th>Correo</th>
-                            <th>Teléfono</th>
-                            <th>Rol</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Correo electrónico</th>
                             <th>Estado</th>
-                            <th>Último acceso</th>
                             <th>Fecha de registro</th>
                         </tr>
                     </thead>
 
                     <tbody>
+
                         {% for usuario in usuarios %}
+
                         <tr>
-                            <td>{{ usuario.username }}</td>
+                            <td>{{ forloop.counter }}</td>
+
+                            <td>
+                                {{ usuario.username }}
+                            </td>
 
                             <td>
                                 {{ usuario.first_name|default:"-" }}
-                                {{ usuario.last_name }}
-                            </td>
-
-                            <td>{{ usuario.email|default:"-" }}</td>
-
-                            <td>
-                                {% if usuario.profile.phone %}
-                                    {{ usuario.profile.phone }}
-                                {% else %}
-                                    -
-                                {% endif %}
-                            </td>
-
-                            <td>{{ usuario.profile.get_role_display }}</td>
-
-                            <td>
-                                {% if usuario.is_active and usuario.profile.active %}
-                                    <span class="badge bg-success">Activo</span>
-                                {% else %}
-                                    <span class="badge bg-danger">Inactivo</span>
-                                {% endif %}
                             </td>
 
                             <td>
-                                {% if usuario.last_login %}
-                                    {{ usuario.last_login|date:"d/m/Y H:i" }}
+                                {{ usuario.last_name|default:"-" }}
+                            </td>
+
+                            <td>
+                                {{ usuario.email|default:"-" }}
+                            </td>
+
+                            <td>
+                                {% if usuario.is_active %}
+                                    <span class="estado estado-activo">
+                                        Activo
+                                    </span>
                                 {% else %}
-                                    Nunca
+                                    <span class="estado estado-inactivo">
+                                        Inactivo
+                                    </span>
                                 {% endif %}
                             </td>
 
-                            <td>{{ usuario.date_joined|date:"d/m/Y" }}</td>
+                            <td>
+                                {{ usuario.date_joined|date:"d/m/Y" }}
+                            </td>
                         </tr>
 
                         {% empty %}
+
                         <tr>
-                            <td colspan="8" class="text-center py-4">
-                                No se encontraron usuarios con los criterios seleccionados.
+                            <td colspan="7" class="sin-registros">
+                                No existen usuarios registrados.
                             </td>
                         </tr>
+
                         {% endfor %}
+
                     </tbody>
 
                 </table>
+
             </div>
 
-            <p class="text-muted mb-0">
-                Usuarios encontrados en esta consulta: {{ usuarios|length }}
-            </p>
-
         </div>
+
+
+        <!-- PIE DEL REPORTE -->
+        <div class="reporte-pie">
+            Sistema de gestión de gimnasios GIMM |
+            Fecha de generación: {% now "d/m/Y H:i" %}
+        </div>
+
     </div>
 
 </div>
-
-<style>
-    @media print {
-        nav,
-        header,
-        footer,
-        form,
-        .btn {
-            display: none !important;
-        }
-
-        body {
-            background: white !important;
-        }
-
-        .container {
-            max-width: 100% !important;
-            width: 100% !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-
-        .card {
-            border: none !important;
-            box-shadow: none !important;
-        }
-
-        .table {
-            font-size: 10px;
-        }
-
-        h2 {
-            margin-bottom: 15px;
-        }
-    }
-</style>
 
 {% endblock %}

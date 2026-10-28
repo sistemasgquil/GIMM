@@ -6,10 +6,6 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'accounts/css/productos.css' %}">
-/* =========================================
-   GIMM - INVENTARIO - PRODUCTOS
-   ========================================= */
-
 
 <div class="contenedor-productos">
 
@@ -154,7 +150,12 @@
         </div>
 
     {% endif %}
-
+        <a
+            href="{% url 'logout' %}"
+            class="boton-logout" align="right"
+        >
+            Menú Principal
+        </a>
 </div>
 
 {% endblock %}
