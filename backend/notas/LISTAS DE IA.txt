@@ -33,5 +33,81 @@
 	
 	APRENDER CLOUD DE IA DESDE CERO NOW
 	
+	--------------------------------------------------------------------------------------
+	Perfecto. Vamos a desarrollar GIMM para dispositivos móviles con Flutter y Dart, reutilizando el sistema que ya tienes en Django y PostgreSQL. Lo haremos por etapas para no dañar lo que ya funciona en la versión web.
+1. Arquitectura que vamos a utilizar
+
+
+
+
+
+
+
+
+
+
+
+La aplicación tendrá esta estructura:
+- Flutter + Dart: interfaz de la aplicación móvil para Android.
+- Django: lógica del sistema, validaciones y procesamiento de operaciones.
+- Django REST Framework: API que permitirá la comunicación entre Flutter y Django.
+- PostgreSQL: base de datos compartida por la aplicación web y la móvil.
+Importante: no vamos a crear otra base de datos para Flutter. Los socios, cobros, productos y movimientos de inventario seguirán utilizando la base de datos de GIMM que ya tienes.
+2. ¿Qué módulos desarrollaremos?
+Etapa	Módulo	Funcionalidades
+1	Acceso	Inicio de sesión y cierre de sesión
+2	Inicio	Panel principal con indicadores
+3	Socios	Consultar, buscar, registrar y editar socios
+4	Cobros	Registrar cobros y consultar pagos
+5	Inventario	Consultar productos y existencias
+6	Movimientos	Registrar entradas y salidas de inventario
+7	Reportes	Consultar información y estadísticas
+
+
+Empezaremos con la conexión entre Flutter y Django. Después construiremos las pantallas con un diseño coherente con la versión web.
+3. Primer paso: comprobar el entorno
+Antes de crear archivos nuevos, vamos a verificar que Django funciona y que Flutter está disponible.
+A. Comprobar Django
+Abre una terminal en Lubuntu y ejecuta estos comandos uno por uno:
+cd /home/axelm/proyectos/gimm/backend
+
+Activa el entorno virtual de Python:
+source ../.venv/bin/activate
+
+Comprueba que Django funciona:
+python manage.py check
+
+Si todo está correcto, deberías ver un mensaje parecido a este:
+System check identified no issues (0 silenced).
+
+B. Comprobar Django REST Framework
+En esa misma terminal, ejecuta:
+python -c "import rest_framework; print(rest_framework.VERSION)"
+
+- Si aparece un número de versión, ya está instalado.
+- Si aparece ModuleNotFoundError, tendremos que instalarlo.
+Si no está instalado, ejecuta:
+python -m pip install djangorestframework
+
+Después añadiremos 'rest_framework' a INSTALLED_APPS en la configuración de Django, conservando las aplicaciones que ya tienes.
+C. Comprobar Flutter y Dart
+Puedes ejecutar estos comandos desde la terminal:
+flutter --version
+
+dart --version
+
+Y comprobar las herramientas de desarrollo de Android:
+flutter doctor
+
+Este último comando revisará si tu entorno está preparado para compilar y ejecutar la aplicación móvil.
+4. ¿Qué haremos después?
+Cuando comprobemos el entorno, seguiremos este orden:
+1. Crear la API de Django para consultar los socios de GIMM.
+2. Probar esa API antes de conectar la aplicación móvil.
+3. Crear el proyecto Flutter llamado gimm_mobile.
+4. Diseñar la pantalla de inicio de sesión.
+5. Conectar Flutter con Django y mostrar los socios registrados en PostgreSQL.
+Por ahora, ejecuta las comprobaciones de los apartados A, B y C y pégame aquí los resultados. Con eso podremos continuar desde tu instalación real, sin repetir configuraciones innecesarias ni modificar lo que ya funciona en GIMM.
+	
 	
 	

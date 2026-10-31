@@ -3,8 +3,9 @@ URL configuration for config project.
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from django.shortcuts import redirect
+from rest_framework.authtoken.views import obtain_auth_token
 
 #Lista_cobros,
 from accounts.views import (
@@ -91,6 +92,9 @@ path(
         'logout/',
         logout_view,
         name='logout'
+        # Mensaje opcional de confirmación
+       #messages.success(request, "Has cerrado sesión correctamente.")
+     
     ),
 
 # Cambiar estado del socio
@@ -196,6 +200,16 @@ path(
     'reportes/usuarios/',
     reporte_usuarios,
     name='reporte_usuarios',
+),
+path(
+    'api/',
+    include('accounts.api_urls')
+),
+
+path(
+    'api/token/',
+    obtain_auth_token,
+    name='api_token'
 ),
 
 ]
