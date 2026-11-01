@@ -736,6 +736,7 @@ def nuevo_producto(request):
 
     if request.method == 'POST':
         codigo = request.POST.get('codigo', '').strip()
+        print("CODIGO RECIBIDO:", repr(codigo))
         nombre = request.POST.get('nombre', '').strip()
         tipo_id = request.POST.get('tipo')
         categoria_id = request.POST.get('categoria')
