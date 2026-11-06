@@ -21,11 +21,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-tv-x$sb0kz8up0hizt^flt8)&^c%0m21wovir*z@rw(#0gqs)o'
-
+#SECRET_KEY = 'Dios2026*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+#aqui la ip de pruebas y la ip de produccion estatita OK.
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '192.168.1.101',
+    '192.168.1.102',
+    '192.168.1.103',
+    '192.168.1.104',
+    '192.168.1.105',
+    '192.168.1.106',
+    '192.168.1.107',
+    '192.168.1.108',
+    '192.168.1.109',
+    '192.168.1.110',
+]
 
 
 # Application definition
@@ -37,11 +50,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',	
     'django.contrib.staticfiles',
+    'accounts',
     'rest_framework',
     'rest_framework.authtoken',
-    'accounts',
-    
-    
+
 ]
 
 MIDDLEWARE = [
@@ -130,16 +142,21 @@ EMAIL_HOST_USER = 'sistemasgquil@gmail.com'
 EMAIL_HOST_PASSWORD = 'Peluche1984'
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
 # ==========================================
-# CONFIGURACIÓN API REST GIMM
+# CONFIGURACIÓN DE API REST PARA FLUTTER
 # ==========================================
 
 REST_FRAMEWORK = {
-
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
 
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }

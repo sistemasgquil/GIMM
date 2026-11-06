@@ -1,273 +1,97 @@
 {% extends 'base.html' %}
 
-{% block title %}Nuevo Producto - GIMM{% endblock %}
-
 {% block content %}
 
-<style>
-/* ==========================================
-   NUEVO PRODUCTO - GIMM
-   Diseño centrado y responsive
-========================================== */
 
-.producto-contenedor {
-    width: 100%;
-    max-width: 1050px;
-    margin: 35px auto;
-    padding: 0 15px;
-}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
 
-/* Encabezado */
+        .contenedor {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-.producto-contenedor h2 {
-    color: #263238;
-    font-size: 27px;
-    font-weight: 700;
-    margin-bottom: 8px;
-}
+        h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
 
-.producto-contenedor .text-muted {
-    font-size: 14px;
-}
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
 
-/* Tarjeta principal */
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-.producto-contenedor .card {
-    width: 100%;
-    border: none;
-    border-radius: 14px;
-    background: #ffffff;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.09);
-    overflow: hidden;
-}
+        .botones {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+        }
 
-.producto-contenedor .card-body {
-    padding: 30px !important;
-}
+        button,
+        .cancelar {
+            padding: 10px 18px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
 
-/* Cuadrícula de campos */
+        button {
+            background-color: #198754;
+            color: white;
+        }
 
-.producto-contenedor .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -10px;
-    margin-right: -10px;
-}
+        .cancelar {
+            background-color: #6c757d;
+            color: white;
+        }
+    </style>
 
-.producto-contenedor .row > div {
-    padding-left: 10px;
-    padding-right: 10px;
-}
+<div class="container mt-4">
 
-/* Etiquetas */
-
-.producto-contenedor label {
-    display: block;
-    color: #344054;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 7px;
-}
-
-/* Campos de texto y select */
-
-.producto-contenedor .form-control,
-.producto-contenedor .form-select {
-    width: 100%;
-    min-height: 43px;
-    padding: 10px 12px;
-    border: 1px solid #d5dce3;
-    border-radius: 8px;
-    background-color: #fff;
-    color: #344054;
-    font-size: 14px;
-    transition: border-color 0.2s ease,
-                box-shadow 0.2s ease;
-}
-
-/* Área de descripción */
-
-.producto-contenedor textarea.form-control {
-    min-height: 100px;
-    resize: vertical;
-}
-
-/* Efecto al seleccionar */
-
-.producto-contenedor .form-control:focus,
-.producto-contenedor .form-select:focus {
-    border-color: #198754;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.13);
-}
-
-/* Campos deshabilitados */
-
-.producto-contenedor .form-select:disabled {
-    background-color: #eef1f4;
-    cursor: not-allowed;
-}
-
-/* Espaciado de los campos */
-
-.producto-contenedor .mb-3 {
-    margin-bottom: 20px !important;
-}
-
-/* Botones */
-
-.producto-contenedor .acciones {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 12px;
-    margin-top: 15px;
-    padding-top: 20px;
-    border-top: 1px solid #edf0f2;
-}
-
-.producto-contenedor .btn {
-    min-height: 42px;
-    padding: 10px 22px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    transition: all 0.2s ease;
-}
-
-.producto-contenedor .btn-primary {
-    background-color: #198754;
-    border-color: #198754;
-}
-
-.producto-contenedor .btn-primary:hover {
-    background-color: #146c43;
-    border-color: #146c43;
-}
-
-.producto-contenedor .btn-secondary {
-    background-color: #6c757d;
-}
-
-.producto-contenedor .btn-outline-primary {
-    border-radius: 8px;
-    font-weight: 600;
-}
-
-/* Mensajes */
-
-.producto-contenedor .alert {
-    border-radius: 8px;
-    font-size: 14px;
-    margin-bottom: 20px;
-}
-
-/* ==========================================
-   TABLETS
-========================================== */
-
-@media (max-width: 768px) {
-
-    .producto-contenedor {
-        margin: 20px auto;
-        padding: 0 12px;
-    }
-
-    .producto-contenedor .card-body {
-        padding: 22px !important;
-    }
-
-    .producto-contenedor h2 {
-        font-size: 23px;
-    }
-
-}
-
-/* ==========================================
-   CELULARES
-========================================== */
-
-@media (max-width: 576px) {
-
-    .producto-contenedor {
-        margin: 15px auto;
-        padding: 0 10px;
-    }
-
-    .producto-contenedor .card-body {
-        padding: 17px !important;
-    }
-
-    .producto-contenedor h2 {
-        font-size: 21px;
-    }
-
-    .producto-contenedor .d-flex {
-        align-items: flex-start !important;
-    }
-
-    .producto-contenedor .d-flex > a {
-        width: 100%;
-        text-align: center;
-    }
-
-    .producto-contenedor .acciones {
-        flex-direction: column-reverse;
-        align-items: stretch;
-    }
-
-    .producto-contenedor .acciones .btn {
-        width: 100%;
-        text-align: center;
-    }
-
-}
-</style>
-
-<div class="container producto-contenedor">
-
-    <!-- ENCABEZADO -->
-
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
             <h2>➕ Nuevo producto</h2>
 
-            <p class="text-muted mb-0">
+            <p class="text-muted">
                 Registrar un nuevo producto en el inventario.
             </p>
         </div>
 
-        <a href="{% url 'lista_productos' %}"
-           class="btn btn-outline-primary">
-            ← Volver a productos
+        <a
+            href="{% url 'lista_productos' %}"
+            class="btn btn-outline-primary">
+            «volver a productos
         </a>
+         
 
     </div>
 
 
-    <!-- FORMULARIO -->
+    <div class="card shadow-sm">
 
-    <div class="card">
-
-        <div class="card-body p-4">
-
-            <!-- MENSAJES DE ERROR -->
-
-            {% if error %}
-                <div class="alert alert-danger">
-                    {{ error }}
-                </div>
-            {% endif %}
-
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-
+        <div class="card-body">
 
             <form method="POST">
 
@@ -275,56 +99,51 @@
 
                 <div class="row">
 
-                    <!-- CÓDIGO -->
+                    <!-- Código -->
 
                     <div class="col-md-4 mb-3">
 
-                        <label for="codigo" class="form-label">
-                           * Código: 
+                        <label class="form-label">
+                            Código
                         </label>
 
                         <input
                             type="text"
-                            id="codigo"
                             name="codigo"
                             class="form-control"
-                            maxlength="50"
                             required
                         >
 
                     </div>
 
 
-                    <!-- NOMBRE -->
+                    <!-- Nombre -->
 
                     <div class="col-md-8 mb-3">
 
-                        <label for="nombre" class="form-label">
-                            Nombre del producto *
+                        <label class="form-label">
+                            Nombre del producto
                         </label>
 
                         <input
                             type="text"
-                            id="nombre"
                             name="nombre"
                             class="form-control"
-                            maxlength="150"
                             required
                         >
 
                     </div>
 
 
-                    <!-- TIPO DE ARTÍCULO -->
+                    <!-- Tipo -->
 
                     <div class="col-md-6 mb-3">
 
-                        <label for="tipo" class="form-label">
-                            Tipo de artículo *
+                        <label class="form-label">
+                            Tipo de artículo
                         </label>
 
                         <select
-                            id="tipo"
                             name="tipo"
                             class="form-select"
                             required
@@ -347,33 +166,30 @@
                     </div>
 
 
-                    <!-- CATEGORÍA FILTRADA -->
+                    <!-- Categoría -->
 
                     <div class="col-md-6 mb-3">
 
-                        <label for="categoria" class="form-label">
-                            Categoría *
+                        <label class="form-label">
+                            Categoría
                         </label>
 
                         <select
-                            id="categoria"
                             name="categoria"
                             class="form-select"
                             required
-                            disabled
                         >
 
                             <option value="">
-                                Primero seleccione un tipo
+                                Seleccione una categoría
                             </option>
 
                             {% for categoria in categorias %}
 
-                                <option
-                                    value="{{ categoria.id }}"
-                                    data-tipo-id="{{ categoria.tipo_id }}"
-                                >
+                                <option value="{{ categoria.id }}">
                                     {{ categoria.nombre }}
+                                    -
+                                    {{ categoria.tipo.nombre }}
                                 </option>
 
                             {% endfor %}
@@ -383,65 +199,88 @@
                     </div>
 
 
-                    <!-- PROVEEDOR -->
+                    <!-- Proveedor -->
 
                     <div class="col-md-6 mb-3">
 
-                        <label for="proveedor" class="form-label">
+                        <label class="form-label">
                             Proveedor
                         </label>
 
                         <input
                             type="text"
-                            id="proveedor"
                             name="proveedor"
                             class="form-control"
-                            maxlength="150"
                         >
 
                     </div>
 
 
-                    <!-- UNIDAD DE MEDIDA -->
+                    <!-- Unidad -->
 
                     <div class="col-md-6 mb-3">
 
-                        <label for="unidad_medida" class="form-label">
-                            Unidad de medida *
+                        <label class="form-label">
+                            Unidad de medida
                         </label>
 
                         <select
-                            id="unidad_medida"
                             name="unidad_medida"
                             class="form-select"
                             required
                         >
 
-                            {% for codigo, nombre in unidades %}
+                            <option value="UNIDAD">
+                                Unidad
+                            </option>
 
-                                <option value="{{ codigo }}"
-                                    {% if codigo == 'UNIDAD' %}selected{% endif %}>
-                                    {{ nombre }}
-                                </option>
+                            <option value="CAJA">
+                                Caja
+                            </option>
 
-                            {% endfor %}
+                            <option value="PAQUETE">
+                                Paquete
+                            </option>
+
+                            <option value="PAR">
+                                Par
+                            </option>
+
+                            <option value="DOCENA">
+                                Docena
+                            </option>
+
+                            <option value="KILOGRAMO">
+                                Kilogramo
+                            </option>
+
+                            <option value="GRAMO">
+                                Gramo
+                            </option>
+
+                            <option value="LITRO">
+                                Litro
+                            </option>
+
+                            <option value="MILILITRO">
+                                Mililitro
+                            </option>
 
                         </select>
 
                     </div>
 
 
-                    <!-- PRECIO COMPRA -->
+                    <!-- Precio compra -->
 
                     <div class="col-md-4 mb-3">
 
-                        <label for="precio_compra" class="form-label">
+                        <label class="form-label">
                             Precio de compra
                         </label>
 
                         <input
                             type="number"
-                            id="precio_compra"
                             name="precio_compra"
                             class="form-control"
                             step="0.01"
@@ -453,17 +292,16 @@
                     </div>
 
 
-                    <!-- PRECIO VENTA -->
+                    <!-- Precio venta -->
 
                     <div class="col-md-4 mb-3">
 
-                        <label for="precio_venta" class="form-label">
+                        <label class="form-label">
                             Precio de venta
                         </label>
 
                         <input
                             type="number"
-                            id="precio_venta"
                             name="precio_venta"
                             class="form-control"
                             step="0.01"
@@ -475,17 +313,16 @@
                     </div>
 
 
-                    <!-- STOCK INICIAL -->
+                    <!-- Stock -->
 
                     <div class="col-md-4 mb-3">
 
-                        <label for="stock" class="form-label">
+                        <label class="form-label">
                             Stock inicial
                         </label>
 
                         <input
                             type="number"
-                            id="stock"
                             name="stock"
                             class="form-control"
                             step="0.01"
@@ -497,17 +334,16 @@
                     </div>
 
 
-                    <!-- STOCK MÍNIMO -->
+                    <!-- Stock mínimo -->
 
                     <div class="col-md-4 mb-3">
 
-                        <label for="stock_minimo" class="form-label">
+                        <label class="form-label">
                             Stock mínimo
                         </label>
 
                         <input
                             type="number"
-                            id="stock_minimo"
                             name="stock_minimo"
                             class="form-control"
                             step="0.01"
@@ -519,16 +355,15 @@
                     </div>
 
 
-                    <!-- DESCRIPCIÓN -->
+                    <!-- Descripción -->
 
                     <div class="col-12 mb-3">
 
-                        <label for="descripcion" class="form-label">
+                        <label class="form-label">
                             Descripción
                         </label>
 
                         <textarea
-                            id="descripcion"
                             name="descripcion"
                             class="form-control"
                             rows="3"
@@ -539,18 +374,19 @@
                 </div>
 
 
-                <!-- BOTONES -->
+                <div class="text-end">
 
-                <div class="acciones">
-
-                    <a href="{% url 'lista_productos' %}"
-                       class="btn btn-secondary">
+                    <a
+                        href="{% url 'lista_productos' %}"
+                        class="btn btn-secondary"
+                    >
                         Cancelar
                     </a>
 
                     <button
                         type="submit"
-                        class="btn btn-primary">
+                        class="btn btn-primary"
+                    >
                         Guardar producto
                     </button>
 
@@ -563,95 +399,5 @@
     </div>
 
 </div>
-
-
-<!-- FILTRADO AUTOMÁTICO DE CATEGORÍAS -->
-
-<script>
-
-document.addEventListener('DOMContentLoaded', function() {
-
-    const tipoSelect = document.getElementById('tipo');
-
-    const categoriaSelect = document.getElementById('categoria');
-
-
-    // Conservar las categorías originales.
-
-    const categoriasOriginales = Array.from(
-        categoriaSelect.querySelectorAll('option[data-tipo-id]')
-    ).map(function(opcion) {
-
-        return {
-            id: opcion.value,
-            nombre: opcion.textContent.trim(),
-            tipoId: opcion.dataset.tipoId
-        };
-
-    });
-
-
-    // Filtrar categorías según el tipo seleccionado.
-
-    function filtrarCategorias() {
-
-        const tipoSeleccionado = tipoSelect.value;
-
-        categoriaSelect.innerHTML = '';
-
-        const opcionInicial = document.createElement('option');
-
-        opcionInicial.value = '';
-
-        opcionInicial.textContent = tipoSeleccionado
-            ? 'Seleccione una categoría'
-            : 'Primero seleccione un tipo';
-
-        categoriaSelect.appendChild(opcionInicial);
-
-
-        // Mostrar solamente las categorías del tipo seleccionado.
-
-        const categoriasFiltradas = categoriasOriginales.filter(
-            function(categoria) {
-
-                return categoria.tipoId === tipoSeleccionado;
-
-            }
-        );
-
-
-        categoriasFiltradas.forEach(function(categoria) {
-
-            const opcion = document.createElement('option');
-
-            opcion.value = categoria.id;
-
-            opcion.textContent = categoria.nombre;
-
-            categoriaSelect.appendChild(opcion);
-
-        });
-
-
-        // Habilitar o deshabilitar el campo.
-
-        categoriaSelect.disabled = categoriasFiltradas.length === 0;
-
-    }
-
-
-    // Detectar cambios en el tipo de artículo.
-
-    tipoSelect.addEventListener('change', filtrarCategorias);
-
-
-    // Estado inicial.
-
-    filtrarCategorias();
-
-});
-
-</script>
 
 {% endblock %}

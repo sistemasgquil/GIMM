@@ -502,26 +502,18 @@
         </span>
 
 
-    <!-- ==================================================
-     CERRAR SESIÓN SEGURO
-     ================================================== -->
+        <!-- ==================================================
+             CERRAR SESION
+             ================================================== -->
 
-            <form
-                method="POST"
-                action="{% url 'logout' %}"
-                style="display: inline;"
-            >
-                {% csrf_token %}
+        <a
+            href="{% url 'logout' %}"
+            class="boton-logout"
+        >
 
-                <button
-                    type="submit"
-                    class="boton-logout"
-                >
-                    Cerrar sesión
-                </button>
+            Cerrar sesión
 
-            </form>
-
+        </a>
 
 
     </nav>
