@@ -1,17 +1,16 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import '../config/api_config.dart';
 
 class ApiService {
-  // ==================================================
-  // AUTENTICACIÓN DE USUARIOS
-  // ==================================================
-
+  // Iniciar sesión en Django
   static Future<String> login(String username, String password) async {
-    final url = Uri.parse(ApiConfig.tokenUrl);
-
     try {
+      // Buscar primero el servidor Django
+      final servidor = await ApiConfig.buscarServidor();
+
+      final url = Uri.parse('$servidor/api/token/');
+
       final response = await http
           .post(
             url,

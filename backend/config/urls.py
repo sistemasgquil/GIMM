@@ -82,5 +82,7 @@ urlpatterns = [
     # API REST para Flutter
     path('api/', include('accounts.api_urls')),
     path('api/token/', obtain_auth_token, name='api_token'),
-
+    #Nuevas lineas de código para la API REST- MOVIL
+    path('api/', include('accounts.api_urls')),
+    path('api/token/', obtain_auth_token, name='api_token'),
 ]

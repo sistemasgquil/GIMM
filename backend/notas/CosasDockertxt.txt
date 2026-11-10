@@ -2,6 +2,7 @@ docker y directori virtual
 
 Ruta:: cd ~/proyectos/gimm/backend
 1.- Conectarse al docker ..................................
+
 sudo systemctl status docker
 sudo systemctl daemon-reload
 sudo systemctl start docker
@@ -20,19 +21,13 @@ accounts  config  db.sqlite3  manage.py  notas  templates
 axelm@axel-satellitel45b:~/proyectos/gimm/backend$ source ../.venv/bin/activate
 (.venv) axelm@axel-satellitel45b:~/proyectos/gimm/backend$ 
 
--- sacar o salir de l directorio virtual: 
-deactivate
-- luego puedo activarlo si deseo:
-source ../.venv/bin/activate
--- reviso que no halla errores dentro el proyecto:     /home/axelm/proyectos/gimm/backend/
-python manage.py check
-
-axelm@axel-satellitel45b:~/proyectos/gimm/backend$ find templates -name "lista.html"
-templates/accounts/socios/lista.html
+-- para buscar un archivo en el backend:    find . -type f -path "*templates*" | grep cobros
+./config/templates/accounts/cobros/nuevo.html
 
 3-- activo el directorio virtual  MUY IMPORTANTE * primero debo estar en mi ruta del virtual y luega poner el runaserver
+cd ~/proyectos/gimm/backend
 source ../.venv/bin/activate
-python manage.py runserver
+python manage.py runserver 0.0.0.0:8000
 
 -------------------------------------------- GITHUB---------------------------------
 cd /home/axelm/proyectos/gimm
@@ -40,14 +35,14 @@ source .venv/bin/activate
 git status
 git branch
 git switch main
-git switch -c desarrolloAC20261031
+git switch -c desarrolloAC20261106
 git add .
-git commit -m "Desarrollo GIMM: mejoras Django y preparacion API Flutter 2026-10-31Acueva"
-git push -u origin desarrolloAC20261031                                            --202601101 le cambie ojo al unir a la princicipal main, q todo este bien probar en el celular.
+git commit -m "Desarrollo GIMM: mejoras Django y preparacion API Flutter 2026-11-06Acueva"
+git push -u origin desarrolloAC20261106                                          --202601106 le cambie ojo al unir a la princicipal main, q todo este bien probar en el celular.
 -- si se que todo esta ok, puedo unir mi rama a la principal:
 git switch main
 git pull origin main
-git merge desarrolloAC20261031
+git merge desarrolloAC20261106
 git push origin main
 
 -----------------------------------------------------------------------------------------
@@ -76,7 +71,7 @@ docker exec -it gimm_postgres psql -U gimm_user -d gimm
 ******************************************** copias de seguridad docker y base de datos **************
 docker exec gimm_postgres pg_dump -U gimm_user -d gimm -Fc > ~/respaldos_gimm/gimm_$(date +%Y-%m-%d_%H-%M-%S).dump
 
----------------------------------************************************** generara llaves************************
+---------------------------------************************************** generara llaves token, probar las api  rest************************
 python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 2@j)zwl7)%(@$rb(jmuloivtr!1law6&k+-39nt7df6pvfudh=
 SECRET_KEY = 'Dios2026*'
@@ -93,8 +88,25 @@ curl -X POST http://192.168.1.104:8000/api/token/ \
 -d "$(python -c 'import json,os; print(json.dumps({"username":os.environ["DJANGO_USER"],"password":os.environ["DJANGO_PASS"]}))')"
 
 unset DJANGO_USER DJANGO_PASS
+token:    "token":     "dc9eff6c2fef341cdc002c526f9d38dc9c2b9927"
 
+read -s -p "dc9eff6c2fef341cdc002c526f9d38dc9c2b9927" TOKEN
+echo
+
+curl -i http://127.0.0.1:8000/api/cobros/ \
+-H "Authorization: Token dc9eff6c2fef341cdc002c526f9d38dc9c2b9927"
+
+curl -X POST http://127.0.0.1:8000/api/token/ \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "username=admin&password=Sysadm753"
 
 luego me pide user django: admin
 Clave:Sysadm7777777
 ip de mi celular test: http://192.168.1.104:8000/login/
+
+------------------------------------------------------------------------------------------- movil --------------------------------------------------
+
+cd ~/proyectos/gimm/mobile/gimm_app && find . -name "*.apk"
+cp build/app/outputs/flutter-apk/app-debug.apk ~/Desktop/GIMM.apk
+
+ruta:  cd ~/proyectos/gimm/mobile/gimm_app

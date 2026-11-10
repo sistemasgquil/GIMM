@@ -4,105 +4,372 @@
 
 {% block content %}
 
-<h1>Registrar Nuevo Cobro</h1>
+<style>
+    /* ==================================================
+       ESTILOS GENERALES
+       ================================================== */
 
-<form method="POST">
+    .cobro-container {
+        max-width: 950px;
+        margin: 30px auto;
+        padding: 0 15px;
+    }
 
-    {% csrf_token %}
+    .cobro-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
 
-    <p>
-        <label>Socio:</label><br>
+    .cobro-header h2 {
+        color: #243447;
+        font-weight: 700;
+        margin: 0;
+    }
 
-        <select name="socio" required>
+    .cobro-header p {
+        color: #6c757d;
+        margin: 6px 0 0;
+    }
 
-            <option value="">-- Seleccione un socio --</option>
+    /* ==================================================
+       TARJETA DEL FORMULARIO
+       ================================================== */
 
-            {% for socio in socios %}
+    .cobro-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        border: 1px solid #e5e9ef;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+    }
 
-                <option value="{{ socio.id }}">
-                    {{ socio.nombres }} {{ socio.apellidos }} - {{ socio.cedula }}
-                </option>
+    .cobro-card h4 {
+        color: #243447;
+        font-size: 19px;
+        font-weight: 700;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e9ecef;
+    }
 
-            {% endfor %}
+    /* ==================================================
+       CAMPOS DEL FORMULARIO
+       ================================================== */
 
-        </select>
-    </p>
+    .cobro-form .form-label {
+        display: block;
+        font-weight: 600;
+        color: #344054;
+        margin-bottom: 7px;
+    }
 
-    <p>
-        <label>Concepto:</label><br>
+    .cobro-form .form-control,
+    .cobro-form .form-select {
+        width: 100%;
+        min-height: 43px;
+        border: 1px solid #ced4da;
+        border-radius: 7px;
+        padding: 9px 12px;
+        font-size: 14px;
+        background-color: #ffffff;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
 
-        <input
-            type="text"
-            name="concepto"
-            placeholder="Ejemplo: Mensualidad septiembre"
-            required
-        >
-    </p>
+    .cobro-form .form-control:focus,
+    .cobro-form .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+        outline: none;
+    }
 
-    <p>
-        <label>Fecha de vencimiento:</label><br>
+    .cobro-form textarea.form-control {
+        min-height: 110px;
+        resize: vertical;
+    }
 
-        <input
-            type="date"
-            name="fecha_vencimiento"
-        >
-    </p>
+    .campo-cobro {
+        margin-bottom: 20px;
+    }
 
-    <p>
-        <label>Valor:</label><br>
+    /* ==================================================
+       BOTONES
+       ================================================== */
 
-        <input
-            type="number"
-            name="valor"
-            step="0.01"
-            min="0"
-            required
-        >
-    </p>
+    .cobro-botones {
+        display: flex;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #e9ecef;
+    }
 
-    <p>
-        <label>Método de pago:</label><br>
+    .cobro-botones .btn {
+        min-width: 145px;
+        padding: 10px 18px;
+        border-radius: 7px;
+        font-weight: 600;
+        text-decoration: none;
+    }
 
-        <select name="metodo_pago" required>
+    .btn-registrar {
+        background-color: #0d6efd;
+        color: #ffffff;
+        border: 1px solid #0d6efd;
+    }
 
-            <option value="EFECTIVO">Efectivo</option>
-            <option value="TRANSFERENCIA">Transferencia</option>
-            <option value="TARJETA">Tarjeta</option>
-            <option value="OTRO">Otro</option>
+    .btn-registrar:hover {
+        background-color: #0b5ed7;
+        color: #ffffff;
+    }
 
-        </select>
-    </p>
+    .btn-cancelar {
+        background-color: #6c757d;
+        color: #ffffff;
+        border: 1px solid #6c757d;
+    }
 
-    <p>
-        <label>Estado:</label><br>
+    .btn-cancelar:hover {
+        background-color: #5c636a;
+        color: #ffffff;
+    }
 
-        <select name="estado" required>
+    /* ==================================================
+       RESPONSIVE
+       ================================================== */
 
-            <option value="PAGADO">Pagado</option>
-            <option value="PENDIENTE">Pendiente</option>
-            <option value="ANULADO">Anulado</option>
+    @media (max-width: 768px) {
 
-        </select>
-    </p>
+        .cobro-container {
+            margin-top: 20px;
+        }
 
-    <p>
-        <label>Observación:</label><br>
+        .cobro-card {
+            padding: 20px;
+        }
 
-        <textarea
-            name="observacion"
-            rows="4"
-            cols="40"
-        ></textarea>
-    </p>
+        .cobro-header {
+            align-items: flex-start;
+        }
 
-    <button type="submit">
-        Registrar cobro
-    </button>
+        .cobro-botones {
+            flex-direction: column-reverse;
+        }
 
-    <a href="{% url 'lista_cobros' %}">
-        Cancelar
-    </a>
+        .cobro-botones .btn {
+            width: 100%;
+        }
+    }
+</style>
 
-</form>
+
+<div class="cobro-container">
+
+    <!-- ENCABEZADO -->
+
+    <div class="cobro-header">
+
+        <div>
+            <h2>💳 Registrar Nuevo Cobro</h2>
+
+            <p>
+                Registra los pagos y movimientos económicos de los socios.
+            </p>
+        </div>
+
+        <a href="{% url 'lista_cobros' %}"
+           class="btn btn-outline-primary">
+            « Volver a cobros
+        </a>
+
+    </div>
+
+
+    <!-- FORMULARIO -->
+
+    <div class="cobro-card">
+
+        <h4>Información del cobro</h4>
+
+        <form method="POST" class="cobro-form">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <!-- SOCIO -->
+
+                <div class="col-md-12 campo-cobro">
+
+                    <label class="form-label">
+                        Socio:
+                    </label>
+
+                    <select name="socio"
+                            class="form-select"
+                            required>
+
+                        <option value="">
+                            -- Seleccione un socio --
+                        </option>
+
+                        {% for socio in socios %}
+
+                            <option value="{{ socio.id }}">
+                                {{ socio.nombres }} {{ socio.apellidos }} - {{ socio.cedula }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- CONCEPTO -->
+
+                <div class="col-md-8 campo-cobro">
+
+                    <label class="form-label">
+                        Concepto:
+                    </label>
+
+                    <input
+                        type="text"
+                        name="concepto"
+                        class="form-control"
+                        placeholder="Ejemplo: Mensualidad septiembre"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- FECHA VENCIMIENTO -->
+
+                <div class="col-md-4 campo-cobro">
+
+                    <label class="form-label">
+                        Fecha de vencimiento:
+                    </label>
+
+                    <input
+                        type="date"
+                        name="fecha_vencimiento"
+                        class="form-control"
+                    >
+
+                </div>
+
+
+                <!-- VALOR -->
+
+                <div class="col-md-4 campo-cobro">
+
+                    <label class="form-label">
+                        Valor ($):
+                    </label>
+
+                    <input
+                        type="number"
+                        name="valor"
+                        class="form-control"
+                        step="0.01"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- METODO DE PAGO -->
+
+                <div class="col-md-4 campo-cobro">
+
+                    <label class="form-label">
+                        Método de pago:
+                    </label>
+
+                    <select name="metodo_pago"
+                            class="form-select"
+                            required>
+
+                        <option value="EFECTIVO">Efectivo</option>
+                        <option value="TRANSFERENCIA">Transferencia</option>
+                        <option value="TARJETA">Tarjeta</option>
+                        <option value="OTRO">Otro</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ESTADO -->
+
+                <div class="col-md-4 campo-cobro">
+
+                    <label class="form-label">
+                        Estado:
+                    </label>
+
+                    <select name="estado"
+                            class="form-select"
+                            required>
+
+                        <option value="PAGADO">Pagado</option>
+                        <option value="PENDIENTE">Pendiente</option>
+                        <option value="ANULADO">Anulado</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- OBSERVACION -->
+
+                <div class="col-md-12 campo-cobro">
+
+                    <label class="form-label">
+                        Observación:
+                    </label>
+
+                    <textarea
+                        name="observacion"
+                        class="form-control"
+                        rows="4"
+                        placeholder="OPCIONAL, Ingrese alguna observación adicional..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTONES -->
+
+            <div class="cobro-botones">
+
+                <a href="{% url 'lista_cobros' %}"
+                   class="btn btn-cancelar">
+                    Cancelar
+                </a>
+
+                <button type="submit"
+                        class="btn btn-registrar">
+                    ✓ Registrar cobro
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 {% endblock %}
